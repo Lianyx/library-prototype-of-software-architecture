@@ -1,0 +1,33 @@
+.exitButton {
+    -fx-background-color: transparent;
+    -fx-pref-height: 40;
+    -fx-pref-width: 40;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+
+    -fx-background-image: url("../pics/mainui/common/exit.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 35 35;
+    -fx-background-position: center center;
+}
+
+.exitButton:hover {
+    -fx-background-color: #0650C8;
+}
+
+.logoutButton {
+    -fx-background-color: #EC3025;
+    -fx-pref-height: 40;
+    -fx-pref-width: 40;
+    -fx-border-radius: 20;
+    -fx-background-radius: 20;
+
+    -fx-background-image: url("../pics/mainui/common/logout.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 30 30;
+    -fx-background-position: center center;
+}
+
+.logoutButton:hover {
+    -fx-background-color: derive(#EC3025,-10%);
+}

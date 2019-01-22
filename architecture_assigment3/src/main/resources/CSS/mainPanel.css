@@ -1,0 +1,57 @@
+.background {
+    -fx-background-image: url('../pics/commonpics/background.png');
+    -fx-background-repeat: stretch;
+    -fx-background-size: stretch;
+    -fx-background-position: center center;
+}
+
+.myButton {
+    -fx-opacity: 0.8;
+    -fx-background-repeat: stretch;
+    -fx-background-size: stretch;
+    -fx-background-position: center center;
+}
+
+.myButton:hover {
+    -fx-opacity: 1;
+}
+
+/*
+* 刷新系统信息的按钮
+*/
+.refreshButton {
+    /*-fx-padding: 5 22 5 22;*/
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2;
+    -fx-border-radius: 30;
+    -fx-background-radius: 32;
+    -fx-background-color: #076DD4;
+    -fx-font-size: 15px;
+    -fx-text-fill: #FFFFFF;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+}
+
+.refreshButton:hover {
+    -fx-background-color: derive(#076DD4,-10%);;
+}
+
+/*
+* 清空系统信息的按钮
+*/
+.clearButton {
+    -fx-border-color: #FFFFFF;
+    -fx-border-width: 2;
+    -fx-border-radius: 30;
+    -fx-background-radius: 32;
+    -fx-background-color: #EC3025;
+    -fx-background-insets: 0 0 0 0, 0, 1, 2;
+
+    -fx-background-image: url("../pics/mainui/common/clear.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-size: 30 30;
+    -fx-background-position: center center;
+}
+
+.clearButton:hover {
+    -fx-background-color: derive(#EC3025,-10%);
+}
