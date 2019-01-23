@@ -11,7 +11,17 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="jPDFViewerFX" level="project" />
     <orderEntry type="library" name="Maven: com.jfoenix:jfoenix:8.0.4" level="project" />
     <orderEntry type="library" name="Maven: org.projectlombok:lombok:1.16.16" level="project" />
+    <orderEntry type="module-library">
+      <library name="Maven: com.qoppa.pdfViewerFX:pdfviewer:unknown">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/jPDFViewerFX.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
   </component>
 </module>

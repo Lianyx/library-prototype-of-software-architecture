@@ -2,10 +2,14 @@ package presentation.loginui;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
+import com.qoppa.pdf.PDFException;
+import com.qoppa.pdfViewerFX.PDFViewer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import presentation.mainpageui.AdminMainUIController;
 import presentation.mainpageui.RootUIController;
@@ -14,6 +18,10 @@ import utils.SystemInfo;
 import utils.UserType;
 import vo.UserVO;
 
+import java.awt.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class LoginUIController {
@@ -51,8 +59,7 @@ public class LoginUIController {
     }
 
     @FXML
-    private void handleExit(){
-        // 这里还有一个登出操作没有写
+    private void handleExit() {
         System.exit(0);
     }
 

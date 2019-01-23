@@ -43,7 +43,7 @@
                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1">
-               <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="14.0" layoutY="5.0" styleClass="myButton, user-info-management" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+               <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="14.0" layoutY="5.0" onAction="#gotoUserInfo" styleClass="myButton, user-info-management" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                   <font>
                      <Font name="System Bold" size="15.0" />
                   </font>
@@ -70,7 +70,7 @@
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
                <children>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="14.0" layoutY="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                  <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="14.0" layoutY="5.0" onAction="#gotoReturnBook" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
                      <font>
                         <Font name="System Bold" size="15.0" />
                      </font>

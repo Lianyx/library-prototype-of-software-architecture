@@ -82,3 +82,7 @@
 .download-button {
     -fx-background-image: url('../pics/functionui/download.png');
 }
+
+.return-book-button {
+    -fx-background-image: url('../pics/functionui/return-book.png');
+}
