@@ -39,10 +39,10 @@ CREATE TABLE Message (
 ;
 
 CREATE TABLE Record (
-  username      VARCHAR(20),
-  bookId        VARCHAR(20),
-  borrowTime    DATETIME,
-  returnTime    DATETIME
+  username   VARCHAR(20),
+  bookId     VARCHAR(20),
+  borrowTime DATETIME,
+  returnTime DATETIME
   # enum需要处理
 )
   CHARACTER SET = utf8;
@@ -69,7 +69,7 @@ CREATE TABLE User (
 
 CREATE TABLE UserPermission (
   username   VARCHAR(20),
-  permission VARCHAR(10)
+  permission VARCHAR(20)
 )
   CHARACTER SET = utf8;
 ;
@@ -91,6 +91,14 @@ INSERT INTO User (username, password, role, debt) VALUES (?, ?, ?, ?);
 
 INSERT INTO RoleCategory (type, categoryId) VALUES (?, ?);
 INSERT INTO UserPermission (username, permission) VALUES (?, ?);
+
+UPDATE User
+SET password = ?, role = ?, debt = ?
+WHERE username = ?;
+
+update Book
+SET name = ?, author = ?, ebookPath = ?, ebookType = ?, categoryId = ?
+where id = ?;
 
 SELECT *
 FROM Book

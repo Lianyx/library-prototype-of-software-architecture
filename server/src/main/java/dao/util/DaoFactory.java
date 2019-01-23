@@ -18,7 +18,7 @@ public class DaoFactory {
             return (TF) implObject;
         } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
-            return null;
+            return (TF) new Object();
         }
     }
 }

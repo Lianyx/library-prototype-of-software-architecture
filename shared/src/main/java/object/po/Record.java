@@ -1,8 +1,9 @@
 package object.po;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Record {
+public class Record implements Serializable {
     private String username, bookId, _bookName;
     private LocalDateTime borrowTime, returnTime;
 

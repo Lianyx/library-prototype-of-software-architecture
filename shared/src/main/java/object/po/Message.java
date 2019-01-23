@@ -1,8 +1,9 @@
 package object.po;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
-public class Message {
+public class Message implements Serializable {
     private String type, toUsername, content;
     private LocalDateTime time;
 

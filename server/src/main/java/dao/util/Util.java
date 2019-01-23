@@ -59,7 +59,7 @@ public class Util {
         if (clazz.equals(String.class)) { // TODO 这个也
             ArrayList<T> list = new ArrayList<>();
             while (resultSet.next()) {
-                list.add((T) resultSet.getString(0));
+                list.add((T) resultSet.getString("x"));
             }
             return list;
         }

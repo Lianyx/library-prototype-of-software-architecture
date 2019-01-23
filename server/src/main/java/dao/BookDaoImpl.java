@@ -4,12 +4,17 @@ import object.po.Book;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import static dao.util.Util.*;
 
 public class BookDaoImpl implements BookDao {
-    private PreparedStatement insertQuery, selectByIdQuery;
+    private PreparedStatement
+            insertQuery,
+            selectByIdQuery,
+            updateQuery,
+            searchQuery;
 
     public BookDaoImpl() throws SQLException {
         this.insertQuery = getStatement(
@@ -18,6 +23,12 @@ public class BookDaoImpl implements BookDao {
                 "SELECT *\n" +
                 "FROM Book\n" +
                 "WHERE id = ?;");
+        this.updateQuery = getStatement("" +
+                "update Book\n" +
+                "SET name = ?, author = ?, ebookPath = ?, ebookType = ?, categoryId = ?\n" +
+                "where id = ?;");
+        this.searchQuery = getStatement("" +
+                "select * from Book where name like ? or author like ?;");
     }
 
     @Override
@@ -35,7 +46,12 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public void update(Book book) {
+    public ArrayList<Book> search(String keyword) throws SQLException {
+        return retrieveQuery(Book.class, searchQuery, "%" + keyword + "%", "%" + keyword + "%");
+    }
 
+    @Override
+    public void update(Book book) throws SQLException {
+        voidQuery(updateQuery, book.getName(), book.getAuthor(), book.getEbookPath(), book.getEbookType(), book.getCategory(), book.getId());
     }
 }
