@@ -7,10 +7,11 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-public interface BorrowService extends Remote {
+public interface RecordService extends Remote {
     void borrowBook(String username, String bookId) throws RemoteException;
     void returnBook(String username, String bookId) throws RemoteException;
     // return 沒什么exception
 
     ArrayList<Record> getBorrowRecords(String username) throws RemoteException;
+    ArrayList<Record> searchRecords(String keyword) throws RemoteException;
 }

@@ -1,12 +1,13 @@
 package object.po;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Role {
     private String type;
     private int maximum;
     private int dayLimit;
-    private Set<Category> _categories;
+    private Set<Category> _categories = new HashSet<>();
 
     public Role() {
     }
@@ -41,8 +42,6 @@ public class Role {
     public void setDayLimit(int dayLimit) {
         this.dayLimit = dayLimit;
     }
-
-
 
     public Set<Category> getCategories() {
         return _categories;

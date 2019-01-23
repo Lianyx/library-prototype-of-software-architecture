@@ -1,12 +1,9 @@
 package object.po;
 
-import object.enun.OperationType;
-
 import java.time.LocalDateTime;
 
 public class Record {
-    private String username, bookId;
-    private OperationType operationType;
+    private String username, bookId, _bookName;
     private LocalDateTime borrowTime, returnTime;
 
     public String getUsername() {
@@ -25,14 +22,6 @@ public class Record {
         this.bookId = bookId;
     }
 
-    public OperationType getOperationType() {
-        return operationType;
-    }
-
-    public void setOperationType(OperationType operationType) {
-        this.operationType = operationType;
-    }
-
     public LocalDateTime getBorrowTime() {
         return borrowTime;
     }
@@ -47,5 +36,13 @@ public class Record {
 
     public void setReturnTime(LocalDateTime returnTime) {
         this.returnTime = returnTime;
+    }
+
+    public String getBookName() {
+        return _bookName;
+    }
+
+    public void setBookName(String _bookName) {
+        this._bookName = _bookName;
     }
 }

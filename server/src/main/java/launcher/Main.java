@@ -1,10 +1,14 @@
 package launcher;
 
 import annotation.RMIRemote;
+import dao.BookDao;
 import dao.CategoryDao;
 import dao.RoleDao;
+import dao.UserDao;
+import object.po.Book;
 import object.po.Category;
 import object.po.Role;
+import object.po.User;
 import org.reflections.Reflections;
 
 import java.rmi.Naming;
@@ -30,12 +34,6 @@ public class Main {
         executeVoidSql("delete from UserPermission");
         executeVoidSql("delete from RoleCategory");
 
-        ////    TEACHER(15, 40, Category.values()),
-////    GRAD(10, 20, Category.CT_CS, Category.CT_HISTORY),
-////    UNDERGRAD(5, 10, Category.values()),
-////    ADMIN(0, 0),
-////    GUEST(0, 0);
-
         CategoryDao categoryDao = getService(CategoryDao.class);
         Category history = new Category("HS", "历史");
         Category cs = new Category("CS", "计算机");
@@ -48,19 +46,37 @@ public class Main {
 
         RoleDao roleDao = getService(RoleDao.class);
         Role teacher = new Role("老师", 15, 40, new HashSet<>(Arrays.asList(history, cs, math, classics)));
-        Role undergraduate = new Role("本科生", 15, 40, new HashSet<>(Arrays.asList(history, cs, math, classics)));
-        Role graduate = new Role("研究生", 15, 40, new HashSet<>(Arrays.asList(history, cs, math, classics)));
+        Role undergraduate = new Role("本科生", 5, 10, new HashSet<>(Arrays.asList(cs, math)));
+        Role graduate = new Role("研究生", 10, 20, new HashSet<>(Arrays.asList(history, cs, math)));
         Role admin = new Role("管理员", 0, 0, new HashSet<>(Collections.emptyList()));
+        roleDao.insert(teacher);
+        roleDao.insert(undergraduate);
+        roleDao.insert(graduate);
+        roleDao.insert(admin);
 
-//        roleDao.insert(new Role("TEACHER", 15, 40));
-//        roleDao.insert(new Role("GRAD", 10, 20));
-//        roleDao.insert();
+        UserDao userDao = getService(UserDao.class);
+        User MrWang = new User("MrWang", "123", teacher);
+        User GradZhang = new User("Zhang", "123", graduate);
+        User UnGradLi = new User("Li", "123", undergraduate);
+        User adminUser = new User("admin", "123", admin);
+        userDao.insert(MrWang);
+        userDao.insert(GradZhang);
+        userDao.insert(UnGradLi);
+        userDao.insert(adminUser);
+
+        BookDao bookDao = getService(BookDao.class);
+        Book network = new Book("NW", "计算机网络", "谢某", null, null, cs);
+        Book calculus = new Book("CCL", "微积分", "肖", null, null, math);
+        bookDao.insert(network);
+        bookDao.insert(calculus);
 
 
     }
 
     public static void main(String[] args) {
         try {
+            initializeData();
+
             LocateRegistry.createRegistry(1099);
 
             Reflections reflections = new Reflections("serviceImpl");

@@ -7,6 +7,18 @@ public class Book {
     private BookType ebookType;
     private Category category;
 
+    public Book() {
+    }
+
+    public Book(String id, String name, String author, String ebookPath, BookType ebookType, Category category) {
+        this.id = id;
+        this.name = name;
+        this.author = author;
+        this.ebookPath = ebookPath;
+        this.ebookType = ebookType;
+        this.category = category;
+    }
+
     public String getId() {
         return id;
     }

@@ -15,17 +15,17 @@ import static dao.util.DaoFactory.getService;
 
 public class RoleDaoImpl implements RoleDao {
     private PreparedStatement insertQuery, selectByIdQuery;
-    private PreparedStatement insertCategoriesQuery, selectCategoriesByRoleIdQuery;
+    private PreparedStatement insertCategoriesQuery, selectCategoriesByTypeQuery;
 
     public RoleDaoImpl() throws SQLException {
-        this.insertQuery = getStatement("INSERT INTO Role (id, maximum, period) VALUES (?, ?, ?);");
+        this.insertQuery = getStatement("INSERT INTO Role (type, maximum, dayLimit) VALUES (?, ?, ?);");
         this.selectByIdQuery = getStatement("" +
                 "SELECT *\n" +
                 "FROM Role\n" +
                 "WHERE id = ?;");
 
-        this.insertCategoriesQuery = getStatement("INSERT INTO RoleCategory (roleId, categoryId) VALUES (?, ?);");
-        this.selectCategoriesByRoleIdQuery = getStatement("" +
+        this.insertCategoriesQuery = getStatement("INSERT INTO RoleCategory (type, categoryId) VALUES (?, ?);");
+        this.selectCategoriesByTypeQuery = getStatement("" +
                 "SELECT categoryId\n" +
                 "FROM RoleCategory\n" +
                 "WHERE type = ?;");
@@ -47,7 +47,7 @@ public class RoleDaoImpl implements RoleDao {
         }
         Role role = roles.get(0);
 
-        ArrayList<String> categoryIds = retrieveQuery(String.class, selectCategoriesByRoleIdQuery, role.getType());
+        ArrayList<String> categoryIds = retrieveQuery(String.class, selectCategoriesByTypeQuery, role.getType());
         CategoryDao service = getService(CategoryDao.class);
         Set<Category> collect = categoryIds.stream().map(s -> {
             try {

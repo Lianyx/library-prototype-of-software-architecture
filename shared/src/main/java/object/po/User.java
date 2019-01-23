@@ -2,13 +2,23 @@ package object.po;
 
 import object.enun.Permission;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class User {
     private String username, password;
     private Role role;
     private double debt;
-    private Set<Permission> _permissions;
+    private Set<Permission> _permissions = new HashSet<>();
+
+    public User() {
+    }
+
+    public User(String username, String password, Role role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
     public String getUsername() {
         return username;

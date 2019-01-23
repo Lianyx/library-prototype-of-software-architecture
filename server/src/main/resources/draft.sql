@@ -1,4 +1,15 @@
 # TODO 可以更进一步地反射生成insert和selectById的那种语句
+
+DROP TABLE Book;
+DROP TABLE Category;
+DROP TABLE Message;
+DROP TABLE Record;
+DROP TABLE Role;
+DROP TABLE User;
+DROP TABLE UserPermission;
+DROP TABLE RoleCategory;
+
+
 CREATE TABLE Book (
   id         VARCHAR(20),
   name       VARCHAR(30),
@@ -30,7 +41,6 @@ CREATE TABLE Message (
 CREATE TABLE Record (
   username      VARCHAR(20),
   bookId        VARCHAR(20),
-  operationType VARCHAR(10),
   borrowTime    DATETIME,
   returnTime    DATETIME
   # enum需要处理
@@ -75,7 +85,7 @@ CREATE TABLE RoleCategory (
 INSERT INTO Book (id, name, author, ebookPath, ebookType, categoryId) VALUES (?, ?, ?, ?, ?, ?);
 INSERT INTO Category (id, name) VALUES (?, ?);
 INSERT INTO Message (type, toUsername, content, time) VALUES (?, ?, ?, ?);
-INSERT INTO Record (username, bookId, operationType, borrowTime, returnTime) VALUES (?, ?, ?, ?, ?);
+INSERT INTO Record (username, bookId, borrowTime, returnTime) VALUES (?, ?, ?, ?);
 INSERT INTO Role (type, maximum, dayLimit) VALUES (?, ?, ?);
 INSERT INTO User (username, password, role, debt) VALUES (?, ?, ?, ?);
 
@@ -109,8 +119,6 @@ WHERE username = ?;
 SELECT permission
 FROM UserPermission
 WHERE username = ?;
-
-
 
 
 

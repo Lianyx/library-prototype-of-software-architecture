@@ -3,7 +3,6 @@ package dao.util;
 import dao.CategoryDao;
 import dao.RoleDao;
 import object.enun.BookType;
-import object.enun.OperationType;
 import object.enun.Permission;
 import object.po.Category;
 import object.po.Role;
@@ -31,7 +30,7 @@ public class Util {
             Class.forName("com.mysql.jdbc.Driver");
 
             connection = DriverManager
-                    .getConnection("jdbc:mysql://localhost/" + DB_NAME,
+                    .getConnection("jdbc:mysql://localhost:3306/" + DB_NAME + "?characterEncoding=UTF8",
                             USERNAME, PASSWORD);
             System.out.println("DB connected");
         } catch (SQLException | ClassNotFoundException e) {
@@ -41,7 +40,7 @@ public class Util {
 
     public static void executeVoidSql(String sql) throws SQLException {
         Statement statement = connection.createStatement();
-        statement.executeQuery(sql);
+        statement.executeUpdate(sql);
     }
 
     public static PreparedStatement getStatement(String query) throws SQLException {
@@ -97,14 +96,6 @@ public class Util {
                         Role role = roleDao.selectById(
                                 resultSet.getString(name));
                         field.set(dto, role);
-                    } else if (type.equals(OperationType.class)) {
-                        String str = resultSet.getString(name);
-                        for (OperationType ot : OperationType.values()) {
-                            if (ot.toString().equals(str)) {
-                                field.set(dto, ot);
-                                break;
-                            }
-                        }
                     } else if (type.equals(Permission.class)) {
                         String str = resultSet.getString(name);
                         for (Permission pm : Permission.values()) {
@@ -164,6 +155,8 @@ public class Util {
                 ps.setString(i++, ((Category) arg).getId());
             } else if (arg instanceof Role) {
                 ps.setString(i++, ((Role) arg).getType());
+            } else if (arg == null) {
+                ps.setString(i++, null); // 这里insert下去的应该是null沒错
             } else { // enum也是直接就toString了
                 ps.setString(i++, arg.toString());
             }
