@@ -49,4 +49,6 @@ public class User {
     public void setDebt(double debt) {
         this.debt = debt;
     }
+
+
 }

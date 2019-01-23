@@ -12,7 +12,7 @@ public class RecordDaoImpl implements RecordDao {
     private PreparedStatement insertQuery, selectByUsernameQuery;
 
     public RecordDaoImpl() throws SQLException {
-        this.insertQuery = getStatement("INSERT INTO Record (username, bookId, operationType, time) VALUES (?, ?, ?, ?);");
+        this.insertQuery = getStatement("INSERT INTO Record (username, bookId, operationType, borrowTime, returnTime) VALUES (?, ?, ?, ?, ?);");
         this.selectByUsernameQuery = getStatement("" +
                 "SELECT *\n" +
                 "FROM Record\n" +
@@ -21,7 +21,7 @@ public class RecordDaoImpl implements RecordDao {
 
     @Override
     public void insert(Record record) throws SQLException {
-//        voidQuery(insertQuery, record.getUsername(), record.getBookId(), record.getOperationType(), record.getTime());
+        voidQuery(insertQuery, record.getUsername(), record.getBookId(), record.getOperationType(), record.getBorrowTime(), record.getReturnTime());
     }
 
     @Override

@@ -6,7 +6,6 @@ import object.po.User;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,7 @@ public class UserDaoImpl implements UserDao {
     private PreparedStatement insertPermissionQuery, selectPermissionsByUsername;
 
     public UserDaoImpl() throws SQLException {
-        this.insertQuery = getStatement("INSERT INTO User (username, password, roleId) VALUES (?, ?, ?);");
+        this.insertQuery = getStatement("INSERT INTO User (username, password, role, debt) VALUES (?, ?, ?, ?);");
         this.selectByUsernameQuery = getStatement("" +
                 "SELECT *\n" +
                 "FROM User\n" +
@@ -32,7 +31,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void insert(User user) throws SQLException {
-        voidQuery(insertQuery, user.getUsername(), user.getPassword(), user.getRole());
+        voidQuery(insertQuery, user.getUsername(), user.getPassword(), user.getRole(), user.getDebt());
         for (Permission permission : user.getPermissions()) {
             voidQuery(insertPermissionQuery, user.getUsername(), permission);
         }

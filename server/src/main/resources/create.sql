@@ -1,4 +1,3 @@
-# TODO 可以更进一步地反射生成insert和selectById的那种语句
 CREATE TABLE Book (
   id         VARCHAR(20),
   name       VARCHAR(30),
@@ -42,7 +41,7 @@ CREATE TABLE Role (
   type     VARCHAR(15),
   maximum  INT,
   dayLimit INT
-  # set需要处理d
+  # set需要处理
 )
   CHARACTER SET = utf8;
 ;
@@ -70,93 +69,3 @@ CREATE TABLE RoleCategory (
 )
   CHARACTER SET = utf8;
 ;
-
-
-INSERT INTO Book (id, name, author, ebookPath, ebookType, categoryId) VALUES (?, ?, ?, ?, ?, ?);
-INSERT INTO Category (id, name) VALUES (?, ?);
-INSERT INTO Message (type, toUsername, content, time) VALUES (?, ?, ?, ?);
-INSERT INTO Record (username, bookId, operationType, borrowTime, returnTime) VALUES (?, ?, ?, ?, ?);
-INSERT INTO Role (type, maximum, dayLimit) VALUES (?, ?, ?);
-INSERT INTO User (username, password, role, debt) VALUES (?, ?, ?, ?);
-
-INSERT INTO RoleCategory (type, categoryId) VALUES (?, ?);
-INSERT INTO UserPermission (username, permission) VALUES (?, ?);
-
-SELECT *
-FROM Book
-WHERE id = ?;
-
-SELECT *
-FROM Category
-WHERE id = ?;
-
-SELECT *
-FROM Record
-WHERE username = ?;
-
-SELECT *
-FROM Role
-WHERE type = ?;
-
-SELECT categoryId
-FROM RoleCategory
-WHERE type = ?;
-
-SELECT *
-FROM User
-WHERE username = ?;
-
-SELECT permission
-FROM UserPermission
-WHERE username = ?;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

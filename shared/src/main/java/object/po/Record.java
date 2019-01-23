@@ -33,6 +33,19 @@ public class Record {
         this.operationType = operationType;
     }
 
+    public LocalDateTime getBorrowTime() {
+        return borrowTime;
+    }
 
+    public void setBorrowTime(LocalDateTime borrowTime) {
+        this.borrowTime = borrowTime;
+    }
 
+    public LocalDateTime getReturnTime() {
+        return returnTime;
+    }
+
+    public void setReturnTime(LocalDateTime returnTime) {
+        this.returnTime = returnTime;
+    }
 }

@@ -11,6 +11,13 @@ public class Role {
     public Role() {
     }
 
+    public Role(String type, int maximum, int dayLimit, Set<Category> _categories) {
+        this.type = type;
+        this.maximum = maximum;
+        this.dayLimit = dayLimit;
+        this._categories = _categories;
+    }
+
     public String getType() {
         return type;
     }
@@ -34,6 +41,8 @@ public class Role {
     public void setDayLimit(int dayLimit) {
         this.dayLimit = dayLimit;
     }
+
+
 
     public Set<Category> getCategories() {
         return _categories;

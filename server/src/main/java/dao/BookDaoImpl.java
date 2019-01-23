@@ -13,7 +13,7 @@ public class BookDaoImpl implements BookDao {
 
     public BookDaoImpl() throws SQLException {
         this.insertQuery = getStatement(
-                "INSERT INTO Book (id, name, author, ebookDir, categoryId) VALUES (?, ?, ?, ?, ?);");
+                "INSERT INTO Book (id, name, author, ebookPath, ebookType, categoryId) VALUES (?, ?, ?, ?, ?, ?);");
         this.selectByIdQuery = getStatement("" +
                 "SELECT *\n" +
                 "FROM Book\n" +
@@ -22,7 +22,7 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void insert(Book book) throws SQLException {
-        voidQuery(insertQuery, book.getId(), book.getName(), book.getAuthor(), book.getEbookPath(), book.getCategory());
+        voidQuery(insertQuery, book.getId(), book.getName(), book.getAuthor(), book.getEbookPath(), book.getEbookType(), book.getCategory());
     }
 
     @Override

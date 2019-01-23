@@ -1,10 +1,12 @@
 package dao.util;
 
-import com.sun.tools.corba.se.idl.StringGen;
 import dao.CategoryDao;
+import dao.RoleDao;
+import object.enun.BookType;
 import object.enun.OperationType;
 import object.enun.Permission;
 import object.po.Category;
+import object.po.Role;
 
 import java.lang.reflect.Field;
 import java.sql.*;
@@ -90,6 +92,11 @@ public class Util {
                         Category category = categoryDao.selectById(
                                 resultSet.getString(name + "Id"));
                         field.set(dto, category);
+                    } else if (type.equals(Role.class)) {
+                        RoleDao roleDao = getService(RoleDao.class);
+                        Role role = roleDao.selectById(
+                                resultSet.getString(name));
+                        field.set(dto, role);
                     } else if (type.equals(OperationType.class)) {
                         String str = resultSet.getString(name);
                         for (OperationType ot : OperationType.values()) {
@@ -103,6 +110,14 @@ public class Util {
                         for (Permission pm : Permission.values()) {
                             if (pm.toString().equals(str)) {
                                 field.set(dto, pm);
+                                break;
+                            }
+                        }
+                    } else if (type.equals(BookType.class)) {
+                        String str = resultSet.getString(name);
+                        for (BookType bt : BookType.values()) {
+                            if (bt.toString().equals(str)) {
+                                field.set(dto, bt);
                                 break;
                             }
                         }
@@ -147,6 +162,8 @@ public class Util {
                 ps.setDouble(i++, (Double) arg);
             } else if (arg instanceof Category) {
                 ps.setString(i++, ((Category) arg).getId());
+            } else if (arg instanceof Role) {
+                ps.setString(i++, ((Role) arg).getType());
             } else { // enum也是直接就toString了
                 ps.setString(i++, arg.toString());
             }
