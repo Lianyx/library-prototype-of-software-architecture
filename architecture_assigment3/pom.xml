@@ -32,6 +32,12 @@
             <artifactId>lombok</artifactId>
             <version>1.16.16</version>
         </dependency>
+        <dependency>
+            <groupId>com.qoppa.pdfViewerFX</groupId>
+            <artifactId>pdfviewer</artifactId>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/jPDFViewerFX.jar</systemPath>
+        </dependency>
     </dependencies>
     
 </project>

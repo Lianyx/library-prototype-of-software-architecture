@@ -192,7 +192,7 @@ public class UserInfoUIController {
             loader.setLocation(UserInfoUIController.class.getResource("UserInfoUI.fxml"));
 
             // Create the dialog stage
-            Stage dialogStage=new Stage();
+            Stage dialogStage = new Stage();
             dialogStage.setResizable(false);
             dialogStage.setTitle("用户信息界面");
             dialogStage.initModality(Modality.WINDOW_MODAL);
