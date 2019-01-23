@@ -1,14 +1,14 @@
 package object.po;
 
 import object.enun.Permission;
-import object.enun.Role;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 public class User {
     private String username, password;
     private Role role;
-    private ArrayList<Permission> permissions;
+    private double debt;
+    private Set<Permission> _permissions;
 
     public String getUsername() {
         return username;
@@ -34,11 +34,19 @@ public class User {
         this.role = role;
     }
 
-    public ArrayList<Permission> getPermissions() {
-        return permissions;
+    public Set<Permission> getPermissions() {
+        return _permissions;
     }
 
-    public void setPermissions(ArrayList<Permission> permissions) {
-        this.permissions = permissions;
+    public void setPermissions(Set<Permission> _permissions) {
+        this._permissions = _permissions;
+    }
+
+    public double getDebt() {
+        return debt;
+    }
+
+    public void setDebt(double debt) {
+        this.debt = debt;
     }
 }

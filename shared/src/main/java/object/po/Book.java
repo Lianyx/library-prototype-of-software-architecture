@@ -1,9 +1,10 @@
 package object.po;
 
-import object.enun.Category;
+import object.enun.BookType;
 
 public class Book {
-    private String id, name, author, ebookDir;
+    private String id, name, author, ebookPath;
+    private BookType ebookType;
     private Category category;
 
     public String getId() {
@@ -30,12 +31,20 @@ public class Book {
         this.author = author;
     }
 
-    public String getEbookDir() {
-        return ebookDir;
+    public String getEbookPath() {
+        return ebookPath;
     }
 
-    public void setEbookDir(String ebookDir) {
-        this.ebookDir = ebookDir;
+    public void setEbookPath(String ebookPath) {
+        this.ebookPath = ebookPath;
+    }
+
+    public BookType getEbookType() {
+        return ebookType;
+    }
+
+    public void setEbookType(BookType ebookType) {
+        this.ebookType = ebookType;
     }
 
     public Category getCategory() {

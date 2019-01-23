@@ -1,5 +1,5 @@
 package object.enun;
 
 public enum Permission {
-    CREAT_USER, SEARCH_USER
+    PM_CREATE_USER, PM_SEARCH_USER
 }

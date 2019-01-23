@@ -1,5 +1,5 @@
 package object.enun;
 
 public enum OperationType {
-    BORROW, RETURN;
+    OT_BORROW, OT_RETURN;
 }
