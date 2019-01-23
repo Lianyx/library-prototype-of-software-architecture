@@ -1,0 +1,181 @@
+/*
+* 修改pane样式的CSS类
+*/
+.background {
+    -fx-background-image: url("../pics/commonpics/background.png");
+    -fx-background-repeat: stretch;
+    -fx-background-size: stretch;
+    -fx-background-position: center center;
+}
+
+.upBorder {
+    -fx-border-width: 1 0 0 0;
+    -fx-border-color: #888888;
+}
+
+.rightBorder {
+    -fx-border-width: 0 2 0 0;
+    -fx-border-color: #888888;
+    -fx-border-style: dashed;
+}
+
+.downBorder {
+    -fx-border-width: 0 0 2 0;
+    -fx-border-color: #888888;
+    -fx-border-style: dashed;
+}
+
+/*
+* 修改label样式的CSS类
+*/
+.myLabel {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #2190DD;
+    -fx-background-radius: 6;
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-opacity: 1;
+    -fx-pref-height: 30;
+    -fx-pref-width: 70;
+    -fx-font-size: 16px;
+}
+
+.myLabel2 {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #2190DD;
+    -fx-background-radius: 6;
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-opacity: 1;
+    -fx-pref-height: 30;
+    -fx-pref-width: 70;
+    -fx-font-size: 12px;
+}
+
+.greyLabel {
+    -fx-text-fill: #000000;
+    -fx-background-color: #F5F5F5;
+    -fx-background-radius: 6;
+    -fx-border-style: solid;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-radius: 5;
+    -fx-opacity: 1;
+    -fx-pref-height: 30;
+    -fx-font-size: 16px;
+}
+
+.greyLabel2 {
+    -fx-text-fill: #000000;
+    -fx-background-color: #F0F0F0;
+    -fx-background-radius: 6;
+    -fx-border-style: solid;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-radius: 5;
+    -fx-opacity: 1;
+    -fx-pref-height: 30;
+    -fx-pref-width: 85;
+    -fx-font-size: 16px;
+}
+
+.simpleLabelStyle {
+    -fx-background-color: transparent;
+    -fx-border-style: solid;
+    -fx-border-width: 0 0 1 0;
+    -fx-opacity: 1;
+    -fx-pref-height: 30;
+    -fx-alignment: bottom-left;
+}
+
+/*
+* 修改选择框样式的CSS类
+*/
+.choice-box {
+    -fx-background-color: #FEFEFE;
+    -fx-font-size: 11px;
+    -fx-pref-height: 30;
+    -fx-pref-width: 40;
+}
+
+
+/*
+* 修改表格样式的CSS类
+*/
+.table-view {
+    -fx-base: #FEFEFE;
+    -fx-control-inner-background: #FEFEFE;
+    -fx-background-color: #FEFEFE;
+    -fx-padding: 5;
+    -fx-font-size: 14px;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: transparent;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-border-width: 1 1 1 1;
+    -fx-background-color: transparent;
+    -fx-border-color: 
+        transparent
+        transparent
+        derive(-fx-base, 80%) 
+        transparent;
+    -fx-border-insets: 0 10 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #3A363A;
+    -fx-alignment: center-left;
+    -fx-opacity: 1;
+}
+
+.table-view:focused .table-row-cell:filled:focused:selected {
+    -fx-background-color: #0880EE;
+}
+
+/*
+* 修改textfield样式的CSS类
+*/
+.text-field {
+    -fx-font-size: 12px;
+    -fx-pref-height: 30;
+}
+
+/*
+* 专门用来“抵消自动适用”的CSS类
+*/
+.myLabel-resize {
+    -fx-text-fill: #FFFFFF;
+    -fx-background-color: #2190DD;
+    -fx-background-radius: 6;
+    -fx-border-style: solid;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-opacity: 1;
+    -fx-font-size: 16px;
+}
+
+.textField-resize {
+    -fx-font-size: 14px;
+    -fx-pref-height: inherit;
+    -fx-pref-width: 330;
+}
+
+
+.tableView-resize {
+    -fx-font-size: 18px;
+}
+
+.choiceBox-resize {
+    -fx-background-color: #FEFEFE;
+    -fx-font-size: 12px;
+    -fx-pref-height: 40;
+    -fx-pref-width: 40;
+}
+
+
+.jfx-date-picker {
+    -jfx-default-color: #123456;
+}
