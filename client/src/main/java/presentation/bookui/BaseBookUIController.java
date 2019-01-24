@@ -14,6 +14,7 @@ import presentation.uitools.CenterUIController;
 import presentation.uitools.UITool;
 import service.BookService;
 
+import java.rmi.RemoteException;
 import java.util.List;
 
 @Data
@@ -33,56 +34,50 @@ public abstract class BaseBookUIController extends CenterUIController {
     protected TableColumn<Book,String> bookCategoryColumn;
     @FXML
     protected TableColumn<Book,String> bookFileTypeColumn;
+    @FXML
+    protected TableColumn<Book,String> bookAvailableColumn;
 
     @FXML
     protected TextField searchInfo;
 
-    // 加载文件后调用的方法******************************************
-
-    /**
-     * 设置显示的客户信息以及显示方法
-     * */
     public void initialize(){
         bookIDColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
         bookNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
         bookAuthorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getAuthor()));
         bookCategoryColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getCategory().getName()));
-        bookFileTypeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getEbookType().toString()));
+        bookFileTypeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(
+                cellData.getValue().getEbookType() == null ?
+                        "无" : String.valueOf(cellData.getValue().getEbookType())));
+        bookAvailableColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().isAvailable() ? "空闲" : "借出"));
     }
 
-    // 设置controller数据的方法*****************************************
+    protected void refresh(String keyword){
+        try {
+            List<Book> bookList = bookService.searchBook(keyword);
+            showBookList(bookList);
+        } catch (RemoteException e){
+            UITool.showAlert(Alert.AlertType.ERROR,
+                    "Error", "查找书籍失败", "服务器链接错误");
+        } catch(Exception e){
+            UITool.showAlert(Alert.AlertType.ERROR,
+                    "Error","查找书籍失败","数据库错误");
+        }
+    }
 
-//    public void setUserBlService(UserBlService userBlService) {
-//        this.userBlService = userBlService;
-//    }
+    @FXML
+    private void handleSearch(){
+        refresh(searchInfo.getText());
+    }
 
-    /**
-     * 刷新界面，取得所有用户的列表，并显示在tableview中
-     * */
-//    private void refresh(UserQueryVO query){
-//        try {
-//            ArrayList<Book> userList = userBlService.getUserList(query);
-//            showUserList(userList);
-//        }catch(DataException e){
-//            UITool.showAlert(Alert.AlertType.ERROR,
-//                    "Error","查找用户失败", "数据库错误");
-//        }catch(Exception e){
-//            UITool.showAlert(Alert.AlertType.ERROR,
-//                    "Error","查找用户失败","RMI连接错误");
-//        }
-//    }
-
-
-    protected void showBookList(List<Book> bookList){
+    private void showBookList(List<Book> bookList){
         bookObservableList.clear();
         bookObservableList.setAll(bookList);
         bookTableView.setItems(bookObservableList);
     }
 
-
     // 界面之中会用到的方法******************************************
 
-    protected boolean isBookSelected(){
+    private boolean isBookSelected(){
         int selectedIndex = bookTableView.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0){
             return true;

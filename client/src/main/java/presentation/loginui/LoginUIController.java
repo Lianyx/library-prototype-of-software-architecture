@@ -10,6 +10,10 @@ import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import lombok.Setter;
 import object.exception.InvalidLoginException;
+import object.po.User;
+import presentation.mainpageui.AdminMainUIController;
+import presentation.mainpageui.RootUIController;
+import presentation.mainpageui.UserMainUIController;
 import presentation.uitools.UITool;
 import service.LoginService;
 import java.io.IOException;
@@ -32,8 +36,19 @@ public class LoginUIController {
         String username = userIdField.getText();
         String password = passwordField.getText();
         try {
-            loginService.login(username, password);
+            User user = loginService.login(username, password);
 
+            stage.close();
+            Stage newStage=new Stage();
+            newStage.setTitle("图书馆信息管理系统");
+            RootUIController root = RootUIController.initRoot(newStage, user);
+            root.showLogoutButton(true);
+
+            if (user.getRole().getType().equals("管理员")) {
+                AdminMainUIController.init(root);
+            } else {
+                UserMainUIController.init(root);
+            }
         } catch (InvalidLoginException e) {
             UITool.showAlert(Alert.AlertType.ERROR, "Error", "登陆失败", "用户名或密码错误");
         }catch(RemoteException e){
