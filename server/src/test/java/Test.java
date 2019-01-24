@@ -8,6 +8,8 @@ import object.exception.BorrowAccessException;
 import object.exception.ExceedMaximumException;
 import object.exception.InvalidLoginException;
 import object.po.*;
+import observer.RmiClient;
+import observer.RmiService;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import service.*;
@@ -208,9 +210,9 @@ public class Test {
             messages = messageService.getByUsername(adminUser.getUsername());
             assertEquals(2, messages.size());
 
-            messageService.clear(adminUser.getUsername());
-            messages = messageService.getByUsername(adminUser.getUsername());
-            assertEquals(0, messages.size());
+//            messageService.clear(adminUser.getUsername());
+//            messages = messageService.getByUsername(adminUser.getUsername());
+//            assertEquals(0, messages.size());
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
@@ -255,4 +257,17 @@ public class Test {
             assertTrue(false);
         }
     }
+
+//    @org.junit.Test
+//    public void testObserver() {
+//        try {
+//            RmiService remoteService = (RmiService) Naming.lookup("rmi://localhost:1099/RmiService");
+//
+//            RmiClient client = new RmiClient();
+//            remoteService.addObserver(client);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            assertTrue(false);
+//        }
+//    }
 }

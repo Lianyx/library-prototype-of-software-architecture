@@ -2,11 +2,15 @@ package launcher;
 
 import annotation.RMIRemote;
 import dao.RecordDao;
+import observer.RmiService;
+import observer.RmiServiceImpl;
 import org.reflections.Reflections;
 
 import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.Set;
 import java.util.concurrent.Executors;
@@ -19,7 +23,11 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            LocateRegistry.createRegistry(1099);
+            Registry registry = LocateRegistry.createRegistry(1099);
+
+            RmiService rmiService = (RmiService) UnicastRemoteObject
+                    .exportObject(new RmiServiceImpl(), 1099);
+            registry.bind("RmiService", rmiService);
 
             Reflections reflections = new Reflections("serviceImpl");
             Set<Class<?>> classesList = reflections.getTypesAnnotatedWith(RMIRemote.class);
@@ -46,7 +54,7 @@ public class Main {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
         scheduler.scheduleAtFixedRate(() -> {
             try {
-                System.out.println("scheduler running");
+                System.out.println("check-penalty scheduler running");
                 recordDao.updatePenalty();
             } catch (SQLException e) {
                 e.printStackTrace();
