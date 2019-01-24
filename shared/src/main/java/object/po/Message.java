@@ -7,6 +7,15 @@ public class Message implements Serializable {
     private String type, toUsername, content;
     private LocalDateTime time;
 
+    public Message() {
+    }
+
+    public Message(String type, String content) {
+        this.type = type;
+        this.content = content;
+        this.time = LocalDateTime.now();
+    }
+
     public String getType() {
         return type;
     }

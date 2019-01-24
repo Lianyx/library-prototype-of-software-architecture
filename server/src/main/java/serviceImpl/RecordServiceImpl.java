@@ -34,7 +34,7 @@ public class RecordServiceImpl extends UnicastRemoteObject implements RecordServ
 
     @Override
     public void borrowBook(String username, String bookId) throws RemoteException {
-        // TODO 要不要來查已借走的
+        // 就不去查书是不是能借了
         try {
             User user = userDao.selectByUsername(username);
             Book book = bookDao.selectById(bookId);
@@ -47,7 +47,7 @@ public class RecordServiceImpl extends UnicastRemoteObject implements RecordServ
                 throw new ExceedMaximumException();
             }
 
-            Record record = new Record(username, bookId, LocalDateTime.now());
+            Record record = new Record(username, bookId);
             recordDao.insert(record);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -56,17 +56,34 @@ public class RecordServiceImpl extends UnicastRemoteObject implements RecordServ
 
     @Override
     public void returnBook(String username, String bookId) throws RemoteException {
+        try {
+            Record record = recordDao.selectUnreturnedByUsernameAndBookId(username, bookId);
+            record.setReturnTime(LocalDateTime.now());
+            recordDao.update(record);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public ArrayList<Record> getBorrowRecords(String username) throws RemoteException {
-        return null;
+        try {
+            return recordDao.selectByUsername(username);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
     public ArrayList<Record> searchRecords(String keyword) throws RemoteException {
-        return null;
+        try {
+            return recordDao.search(keyword);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     private boolean haveAccess(User user, Book book) {

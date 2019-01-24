@@ -80,7 +80,8 @@ public class Util {
                     Class<?> type = field.getType();
 
                     if (type.equals(LocalDateTime.class)) {
-                        field.set(dto, destringify(resultSet.getString(name)));
+                        String str = resultSet.getString(name); // 这个应该应用到所有
+                        field.set(dto, str == null ? null : destringify(str));
                     } else if (type.equals(Integer.TYPE)) {
                         field.set(dto, resultSet.getInt(name));
                     } else if (type.equals(Double.TYPE)) {
@@ -93,7 +94,7 @@ public class Util {
                         field.set(dto, category);
                     } else if (type.equals(Role.class)) {
                         RoleDao roleDao = getService(RoleDao.class);
-                        Role role = roleDao.selectById(
+                        Role role = roleDao.selectByType(
                                 resultSet.getString(name));
                         field.set(dto, role);
                     } else if (type.equals(Permission.class)) {

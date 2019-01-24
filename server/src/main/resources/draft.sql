@@ -12,7 +12,7 @@ DROP TABLE RoleCategory;
 
 CREATE TABLE Book (
   id         VARCHAR(20),
-  name       VARCHAR(30),
+  name       VARCHAR(50),
   author     VARCHAR(15),
   ebookPath  VARCHAR(30),
   ebookType  VARCHAR(15),
@@ -133,11 +133,39 @@ FROM UserPermission
 WHERE username = ?;
 
 
+SELECT *
+FROM Record
+WHERE username LIKE ?
+      OR Record.bookId IN (SELECT id
+                           FROM Book
+                           WHERE Book.name LIKE ?);
 
+SELECT
+  Record.bookId,
+  Record.username,
+  Record.borrowTime,
+  Record.returnTime,
+  Book.name AS bookName
+FROM Record, Book
+WHERE Record.bookId = Book.id
+      AND username LIKE ?
+      AND Book.name LIKE ?;
 
+SELECT
+  Record.bookId,
+  Record.username,
+  Record.borrowTime,
+  Record.returnTime,
+  Book.name AS bookName
+FROM Record, Book
+WHERE Record.bookId = Book.id;
 
-
-
+SELECT *
+FROM Message
+WHERE type IN (SELECT role
+               FROM User
+               WHERE username = ?)
+      OR toUsername = ?;
 
 
 
