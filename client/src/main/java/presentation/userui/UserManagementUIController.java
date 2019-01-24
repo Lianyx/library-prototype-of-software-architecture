@@ -15,22 +15,21 @@ import presentation.mainpageui.RootUIController;
 import presentation.uitools.CenterUIController;
 import presentation.uitools.UITool;
 import utils.UIType;
-import vo.UserVO;
 
 import java.util.ArrayList;
 
 public class UserManagementUIController extends CenterUIController {
     //private UserBlService userBlService;
 
-    private ObservableList<UserVO> userObservableList= FXCollections.observableArrayList();
+    private ObservableList<User> userObservableList= FXCollections.observableArrayList();
     @FXML
-    private TableView<UserVO> userTableView;
+    private TableView<User> userTableView;
     @FXML
-    private TableColumn<UserVO,String> userIDColumn;
+    private TableColumn<User,String> userIDColumn;
     @FXML
-    private TableColumn<UserVO,String> userNameColumn;
+    private TableColumn<User,String> userNameColumn;
     @FXML
-    private TableColumn<UserVO,String> userTypeColumn;
+    private TableColumn<User,String> userTypeColumn;
 
     @FXML
     private TextField searchInfo;
@@ -41,9 +40,9 @@ public class UserManagementUIController extends CenterUIController {
      * 设置显示的客户信息以及显示方法
      * */
     public void initialize(){
-        userIDColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getId()));
-        userNameColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getName()));
-        userTypeColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getType()));
+        userIDColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUsername()));
+        userNameColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUsername()));
+        userTypeColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getPassword()));
     }
 
     // 设置controller数据的方法*****************************************
@@ -57,7 +56,7 @@ public class UserManagementUIController extends CenterUIController {
      * */
 //    private void refresh(UserQueryVO query){
 //        try {
-//            ArrayList<UserVO> userList = userBlService.getUserList(query);
+//            ArrayList<User> userList = userBlService.getUserList(query);
 //            showUserList(userList);
 //        }catch(DataException e){
 //            UITool.showAlert(Alert.AlertType.ERROR,
@@ -71,7 +70,7 @@ public class UserManagementUIController extends CenterUIController {
     /**
      * 取得用户列表并修改ObservableList的信息
      * */
-    private void showUserList(ArrayList<UserVO> userList){
+    private void showUserList(ArrayList<User> userList){
         userObservableList.clear();
         userObservableList.setAll(userList);
         userTableView.setItems(userObservableList);

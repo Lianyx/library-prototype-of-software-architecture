@@ -9,6 +9,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import object.po.Book;
 import presentation.uitools.CenterUIController;
 import presentation.uitools.UITool;
@@ -17,9 +18,10 @@ import service.BookService;
 import java.rmi.RemoteException;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 public abstract class BaseBookUIController extends CenterUIController {
-    private BookService bookService;
+    protected BookService bookService;
 
     protected ObservableList<Book> bookObservableList = FXCollections.observableArrayList();
     @FXML
@@ -75,9 +77,7 @@ public abstract class BaseBookUIController extends CenterUIController {
         bookTableView.setItems(bookObservableList);
     }
 
-    // 界面之中会用到的方法******************************************
-
-    private boolean isBookSelected(){
+    protected boolean isBookSelected(){
         int selectedIndex = bookTableView.getSelectionModel().getSelectedIndex();
         if (selectedIndex >= 0){
             return true;

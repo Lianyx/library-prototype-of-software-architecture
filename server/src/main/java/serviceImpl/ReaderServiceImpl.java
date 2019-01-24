@@ -36,10 +36,9 @@ public class ReaderServiceImpl extends UnicastRemoteObject implements ReaderServ
     public RemoteInputStream getFile(String bookId) throws RemoteException, FileNotFoundException {
         try {
             Book book = bookDao.selectById(bookId);
-            String ebookPath = book.getEbookPath();
-
-            SimpleRemoteInputStream istream = new SimpleRemoteInputStream(new FileInputStream(ebookPath));
-
+            String ebookPath = "EBook.html";
+            SimpleRemoteInputStream istream = new SimpleRemoteInputStream(new FileInputStream(
+                    ReaderServiceImpl.class.getResource("").getPath() + ebookPath));
             return istream.export();
         } catch (SQLException e) {
             e.printStackTrace();

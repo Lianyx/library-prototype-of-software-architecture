@@ -1,17 +1,13 @@
 package utils;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 public class FileTool {
-    public static String readAllLines(File file) {
+    public static String readContent(InputStream inputStream) {
         StringBuilder sb = new StringBuilder();
         String str;
         try {
-            BufferedReader br =  new BufferedReader
-                    (new InputStreamReader(new FileInputStream(file.getAbsolutePath())));
+            BufferedReader br =  new BufferedReader(new InputStreamReader(inputStream));
             while (null != (str = br.readLine())) {
                 sb.append(str);
             }

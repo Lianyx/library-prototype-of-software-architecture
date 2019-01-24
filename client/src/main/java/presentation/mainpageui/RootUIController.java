@@ -13,7 +13,6 @@ import object.po.User;
 import presentation.loginui.LoginUIController;
 import presentation.uitools.CenterUIController;
 import utils.SystemInfo;
-import vo.UserVO;
 
 @Data
 public class RootUIController {

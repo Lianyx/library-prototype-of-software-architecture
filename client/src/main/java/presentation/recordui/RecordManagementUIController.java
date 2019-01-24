@@ -27,7 +27,7 @@ public class RecordManagementUIController extends BaseRecordUIController {
      * */
 //    private void refresh(UserQueryVO query){
 //        try {
-//            ArrayList<UserVO> userList = userBlService.getUserList(query);
+//            ArrayList<User> userList = userBlService.getUserList(query);
 //            showUserList(userList);
 //        }catch(DataException e){
 //            UITool.showAlert(Alert.AlertType.ERROR,

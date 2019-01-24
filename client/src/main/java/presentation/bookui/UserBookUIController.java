@@ -1,18 +1,27 @@
 package presentation.bookui;
 
+import doc.BookDoc;
 import factory.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import object.po.Book;
 import presentation.mainpageui.RootUIController;
 import presentation.mainpageui.UserMainUIController;
-import presentation.readerui.HTMLReaderUIController;
+import presentation.readerui.EBookReader;
 import service.BookService;
+
+import java.io.*;
 
 public class UserBookUIController extends BaseBookUIController {
 
     @FXML
-    private void handleReadBook() {
-        HTMLReaderUIController.init(root.getStage());
+    private void handleReadBook() throws IOException {
+        if (isBookSelected()) {
+            Book book = bookTableView.getSelectionModel().getSelectedItem();
+            BookDoc doc = new BookDoc(book);
+            EBookReader reader = doc.getReader();
+            reader.display(root.getStage());
+        }
     }
 
     @FXML
