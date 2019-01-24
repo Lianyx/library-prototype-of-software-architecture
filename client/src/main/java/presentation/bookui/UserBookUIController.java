@@ -10,6 +10,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import presentation.mainpageui.RootUIController;
 import presentation.mainpageui.UserMainUIController;
+import presentation.readerui.HTMLReaderUIController;
 import utils.FileTool;
 
 import java.io.File;
@@ -50,24 +51,8 @@ public class UserBookUIController extends BaseBookUIController {
     }
 
     @FXML
-    private void handleReadBook() throws FileNotFoundException, PDFException {
-        FileChooser fileChooser = new FileChooser();
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html");
-        fileChooser.getExtensionFilters().add(extFilter);
-        File file = fileChooser.showOpenDialog(root.getStage());
-
-        if (file != null) {
-            Stage newStage = new Stage();
-//        PDFViewer pdfViewer = new PDFViewer();
-//        pdfViewer.loadPDF(new FileInputStream(file));
-//        Scene scene = new Scene(new BorderPane(pdfViewer));
-
-            WebView webView = new WebView();
-            webView.getEngine().loadContent(FileTool.readAllLines(file));
-            Scene scene = new Scene(new BorderPane(webView));
-            newStage.setScene(scene);
-            newStage.show();
-        }
+    private void handleReadBook() {
+        HTMLReaderUIController.init(root.getStage());
     }
 
     @FXML
