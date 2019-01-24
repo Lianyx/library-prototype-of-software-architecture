@@ -21,8 +21,7 @@ public class ServiceFactory {
         }
         try {
             int beginIndex = serviceClass.getName().lastIndexOf('.') + 1;
-            String s = SystemInfo.RML_BASE_URL.getValue() + serviceClass.getName().substring(beginIndex);
-            T newService = (T) Naming.lookup("rmi://localhost:1099/TestService");
+            T newService = (T) Naming.lookup(SystemInfo.RML_BASE_URL.getValue() + serviceClass.getName().substring(beginIndex));
             serviceMap.put(serviceClass, newService);
             return newService;
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
