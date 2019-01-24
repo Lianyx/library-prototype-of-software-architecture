@@ -149,11 +149,7 @@ public class BookInfoUIController {
         }
     }
 
-    // 加载文件和界面的方法******************************************
 
-    /**
-     * 静态初始化方法，加载相应的FXML文件，并添加一些信息
-     * */
     public static void init(BookService service, Book book, UIType type, Stage stage){
         try{
             // 加载登陆界面

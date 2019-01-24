@@ -40,7 +40,7 @@ public class RootUIController {
     private void setOperator(User operator) {
         this.operator = operator;
         name.setText(operator.getUsername());
-        type.setText("233");
+        type.setText(operator.getRole().getType());
     }
 
     public void setCenterPane(AnchorPane centerPane){

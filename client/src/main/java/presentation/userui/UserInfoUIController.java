@@ -12,6 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Data;
 import lombok.Setter;
+import object.exception.AlreadyExistException;
 import object.po.Role;
 import object.po.User;
 import presentation.uitools.UITool;
@@ -51,11 +52,12 @@ public class UserInfoUIController {
     private Stage dialogStage;
 
     public void initialize(){
-        String[] typeList = UserType.getUserTypeList();
+        String[] typeList = Role.getTypeList();
         typeChoiceBox.setItems(FXCollections.observableArrayList(typeList));
         typeChoiceBox.getSelectionModel().selectedIndexProperty().addListener((ov,oldValue,newValue)->{
-            type.setText(typeList[newValue.intValue()]);
-            //user.getRole().setType(typeList[newValue.intValue()]);
+            Role role = Role.getRole(typeList[newValue.intValue()]);
+            user.setRole(role);
+            setRole(role);
         });
 
     }
@@ -68,7 +70,7 @@ public class UserInfoUIController {
         password.setText(user.getPassword());
         debt.setText(String.valueOf(user.getDebt()));
         permission.setText(String.valueOf(user.getPermissions()));
-        //setRole(user.getRole());
+        setRole(user.getRole());
     }
 
     private void setRole(Role role) {
@@ -95,43 +97,28 @@ public class UserInfoUIController {
 
     @FXML
     private void handleConfirm(){
-//        if(isInputValid()){
-//            String text=confirm.getText();
-//
-//            try{
-//                if(text.equals("添加")){
-//                    String userID=userBlService.addUser(user);
-//                    String userName=user.getName();
-//
-//                    UITool.showAlert(Alert.AlertType.INFORMATION,
-//                            "Success","添加用户成功",
-//                            "用户ID："+userID+System.lineSeparator()+"名字："+userName);
-//                }
-//                else if(text.equals("编辑")){
-//                    userBlService.editUser(user);
-//                    String userID=user.getID();
-//                    String userName=user.getName();
-//
-//                    UITool.showAlert(Alert.AlertType.INFORMATION,
-//                            "Success","编辑用户成功",
-//                            "用户ID："+userID+System.lineSeparator()+"名字："+userName);
-//                }
-//
-//                dialogStage.close();
-//            }catch(DataException e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error",text+"用户失败", "数据库错误");
-//            }catch(NotExistException e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error",text+"用户失败","用户不存在");
-//            }catch(ExistException e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error",text+"用户失败","账号和已有用户重复");
-//            }catch(Exception e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error",text+"用户失败","RMI连接错误");
-//            }
-//        }
+        if(isInputValid()){
+            String text = confirm.getText();
+
+            try{
+                if(text.equals("添加")){
+                    userService.addUser(user);
+                }
+                else if(text.equals("编辑")){
+                    userService.updateUser(user);
+                }
+                UITool.showAlert(Alert.AlertType.INFORMATION,
+                        "Success", text + "用户成功", "用户名: " + username.getText());
+
+                dialogStage.close();
+            } catch(AlreadyExistException e){
+                UITool.showAlert(Alert.AlertType.ERROR,
+                        "Error", text + "用户失败","用户已存在");
+            } catch(Exception e){
+                UITool.showAlert(Alert.AlertType.ERROR,
+                        "Error", text + "用户失败","服务器连接错误");
+            }
+        }
     }
 
     @FXML
@@ -161,7 +148,7 @@ public class UserInfoUIController {
         else {
             try {
                 double d = Double.parseDouble(debt.getText());
-                if (d <= 0)
+                if (d < 0)
                     throw new NumberFormatException();
             } catch (NumberFormatException e) {
                 errorMessage += ("用户欠款必须是非负数。" + System.lineSeparator());
@@ -179,18 +166,11 @@ public class UserInfoUIController {
         }
     }
 
-    // 加载文件和界面的方法******************************************
-
-    /**
-     * 静态初始化方法，加载相应的FXML文件，并添加一些信息
-     * */
     public static void init(UserService service, User user, UIType type, Stage stage){
         try{
-            // 加载登陆界面
             FXMLLoader loader=new FXMLLoader();
             loader.setLocation(UserInfoUIController.class.getResource("UserInfoUI.fxml"));
 
-            // Create the dialog stage
             Stage dialogStage = new Stage();
             dialogStage.setResizable(false);
             dialogStage.setTitle("用户信息界面");
@@ -204,9 +184,7 @@ public class UserInfoUIController {
             controller.setDialogStage(dialogStage);
             controller.setPaneType(type);
 
-            // Show the dialog and wait until the user closes it.
             dialogStage.showAndWait();
-
         }catch(Exception e){
             e.printStackTrace();
         }

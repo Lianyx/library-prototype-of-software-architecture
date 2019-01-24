@@ -1,11 +1,13 @@
 package presentation.mainpageui;
 
+import factory.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import object.po.User;
 import presentation.bookui.UserBookUIController;
 import presentation.recordui.ReturnBookUIController;
 import presentation.userui.UserInfoUIController;
+import service.UserService;
 import utils.UIType;
 
 public class UserMainUIController extends BaseMainUIController {
@@ -24,8 +26,8 @@ public class UserMainUIController extends BaseMainUIController {
 
     @FXML
     private void gotoUserInfo(){
-        root.showLogoutButton(false);
-        UserInfoUIController.init(null, new User(), UIType.USER_EDIT, root.getStage());
+        UserInfoUIController.init(ServiceFactory.getService(UserService.class),
+                root.getOperator(), UIType.USER_EDIT, root.getStage());
     }
 
 
@@ -38,7 +40,7 @@ public class UserMainUIController extends BaseMainUIController {
     public static void init(RootUIController root){
         try{
             // 加载登陆界面
-            FXMLLoader loader=new FXMLLoader();
+            FXMLLoader loader = new FXMLLoader();
             loader.setLocation(UserMainUIController.class.getResource("UserMainUI.fxml"));
             root.setCenterPane(loader.load());
 
