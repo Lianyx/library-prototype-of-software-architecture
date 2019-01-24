@@ -2,34 +2,20 @@ package presentation.loginui;
 
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
-import com.qoppa.pdf.PDFException;
-import com.qoppa.pdfViewerFX.PDFViewer;
 import factory.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.web.WebView;
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import object.po.User;
-import presentation.mainpageui.AdminMainUIController;
-import presentation.mainpageui.RootUIController;
-import presentation.mainpageui.UserMainUIController;
+import lombok.Setter;
+import object.exception.InvalidLoginException;
 import presentation.uitools.UITool;
-import service.TestService;
-import utils.SystemInfo;
-import utils.UserType;
-import vo.UserVO;
-
-import java.awt.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
+import service.LoginService;
 import java.io.IOException;
 import java.rmi.RemoteException;
 
+@Setter
 public class LoginUIController {
 
     @FXML
@@ -37,35 +23,27 @@ public class LoginUIController {
     @FXML
     private JFXPasswordField passwordField;
 
+    private LoginService loginService;
+
     private Stage stage;
 
-    private void setStage(Stage stage) {
-        this.stage = stage;
-    }
-
     @FXML
-    private void handleLogin(){
-        User user = new User();
+    private void handleLogin() throws RemoteException {
+        String username = userIdField.getText();
+        String password = passwordField.getText();
+        try {
+            loginService.login(username, password);
 
-        stage.close();
-        Stage newStage = new Stage();
-        newStage.setResizable(false);
-        newStage.setTitle(SystemInfo.SYSTEM_NAME.getValue());
-        RootUIController root = RootUIController.initRoot(newStage, user);
-        root.showLogoutButton(true);
-
-        if (userIdField.getText().equals("admin")) {
-            AdminMainUIController.init(root);
-        } else {
-            UserMainUIController.init(root);
+        } catch (InvalidLoginException e) {
+            UITool.showAlert(Alert.AlertType.ERROR, "Error", "登陆失败", "用户名或密码错误");
+        }catch(RemoteException e){
+            UITool.showAlert(Alert.AlertType.ERROR, "Error", "登陆失败", "服务器连接错误");
         }
     }
 
     @FXML
     private void handleExit() throws RemoteException {
-        //System.exit(0);
-        TestService testService = ServiceFactory.getService(TestService.class);
-        UITool.showAlert(Alert.AlertType.INFORMATION, "233", testService.getStr(3), "dasd");
+        System.exit(0);
     }
 
     public static void init(Stage stage){
@@ -78,8 +56,9 @@ public class LoginUIController {
             stage.setScene(scene);
             stage.show();
 
-            LoginUIController controller=loader.getController();
+            LoginUIController controller = loader.getController();
             controller.setStage(stage);
+            controller.setLoginService(ServiceFactory.getService(LoginService.class));
         }catch(IOException e){
             e.printStackTrace();
         }
