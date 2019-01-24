@@ -6,6 +6,7 @@ import java.io.Serializable;
 
 public class Book implements Serializable {
     private String id, name, author, ebookPath;
+    private boolean _available;
     private BookType ebookType;
     private Category category;
 
@@ -105,5 +106,13 @@ public class Book implements Serializable {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public boolean isAvailable() {
+        return _available;
+    }
+
+    public void setAvailable(boolean _available) {
+        this._available = _available;
     }
 }

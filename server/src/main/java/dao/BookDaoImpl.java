@@ -1,12 +1,14 @@
 package dao;
 
 import object.po.Book;
+import object.po.Record;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static dao.util.DaoFactory.getService;
 import static dao.util.Util.*;
 
 public class BookDaoImpl implements BookDao {
@@ -38,7 +40,8 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Book selectById(String id) throws SQLException {
-        List<Book> books = retrieveQuery(Book.class, selectByIdQuery, id);
+        ArrayList<Book> books = retrieveQuery(Book.class, selectByIdQuery, id);
+        setAvailable(books);
         if (books.isEmpty()) {
             return null;
         }
@@ -47,11 +50,21 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public ArrayList<Book> search(String keyword) throws SQLException {
-        return retrieveQuery(Book.class, searchQuery, "%" + keyword + "%", "%" + keyword + "%");
+        ArrayList<Book> books = retrieveQuery(Book.class, searchQuery, "%" + keyword + "%", "%" + keyword + "%");
+        setAvailable(books);
+        return books;
     }
 
     @Override
     public void update(Book book) throws SQLException {
         voidQuery(updateQuery, book.getName(), book.getAuthor(), book.getEbookPath(), book.getEbookType(), book.getCategory(), book.getId());
+    }
+
+    private void setAvailable(ArrayList<Book> books) throws SQLException {
+        RecordDao recordDao = getService(RecordDao.class);
+        for (Book book : books) {
+            ArrayList<Record> records = recordDao.selectUnreturnedByBookId(book.getId());
+            book.setAvailable(records.isEmpty()); // 如果加上本数，那就不是这样写了
+        }
     }
 }

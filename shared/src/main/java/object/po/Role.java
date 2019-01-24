@@ -20,6 +20,38 @@ public class Role implements Serializable {
         this._categories = _categories;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Role role = (Role) o;
+
+        if (maximum != role.maximum) return false;
+        if (dayLimit != role.dayLimit) return false;
+        if (type != null ? !type.equals(role.type) : role.type != null) return false;
+        return _categories != null ? _categories.equals(role._categories) : role._categories == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = type != null ? type.hashCode() : 0;
+        result = 31 * result + maximum;
+        result = 31 * result + dayLimit;
+        result = 31 * result + (_categories != null ? _categories.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "type='" + type + '\'' +
+                ", maximum=" + maximum +
+                ", dayLimit=" + dayLimit +
+                ", _categories=" + _categories +
+                '}';
+    }
+
     public String getType() {
         return type;
     }
@@ -52,35 +84,4 @@ public class Role implements Serializable {
         this._categories = categories;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Role role = (Role) o;
-
-        if (maximum != role.maximum) return false;
-        if (dayLimit != role.dayLimit) return false;
-        if (type != null ? !type.equals(role.type) : role.type != null) return false;
-        return _categories != null ? _categories.equals(role._categories) : role._categories == null;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = type != null ? type.hashCode() : 0;
-        result = 31 * result + maximum;
-        result = 31 * result + dayLimit;
-        result = 31 * result + (_categories != null ? _categories.hashCode() : 0);
-        return result;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "type='" + type + '\'' +
-                ", maximum=" + maximum +
-                ", dayLimit=" + dayLimit +
-                ", _categories=" + _categories +
-                '}';
-    }
 }

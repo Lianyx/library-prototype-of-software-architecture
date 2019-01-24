@@ -96,9 +96,13 @@ UPDATE User
 SET password = ?, role = ?, debt = ?
 WHERE username = ?;
 
-update Book
+UPDATE Book
 SET name = ?, author = ?, ebookPath = ?, ebookType = ?, categoryId = ?
-where id = ?;
+WHERE id = ?;
+
+UPDATE Record
+SET returnTime = ?
+WHERE username = ? AND bookId = ? AND borrowTime = ?;
 
 SELECT *
 FROM Book

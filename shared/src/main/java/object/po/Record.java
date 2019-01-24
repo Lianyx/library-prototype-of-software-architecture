@@ -7,6 +7,15 @@ public class Record implements Serializable {
     private String username, bookId, _bookName;
     private LocalDateTime borrowTime, returnTime;
 
+    public Record() {
+    }
+
+    public Record(String username, String bookId, LocalDateTime borrowTime) {
+        this.username = username;
+        this.bookId = bookId;
+        this.borrowTime = borrowTime;
+    }
+
     public String getUsername() {
         return username;
     }
