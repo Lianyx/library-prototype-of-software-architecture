@@ -53,36 +53,36 @@
                </JFXButton>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-               <children>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="14.0" layoutY="5.0" onAction="#gotoOnlineReading" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <styleClass>
-                        <String fx:value="myButton" />
-                        <String fx:value="online-reading" />
-                     </styleClass>
-                  </JFXButton>
-               </children>
+               <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="14.0" layoutY="5.0"
+                          onAction="#gotoOnlineReading" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0"
+                          AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
+                  <font>
+                     <Font name="System Bold" size="15.0"/>
+                  </font>
+                  <cursor>
+                     <Cursor fx:constant="HAND"/>
+                  </cursor>
+                  <styleClass>
+                     <String fx:value="myButton"/>
+                     <String fx:value="book-management"/>
+                  </styleClass>
+               </JFXButton>
             </AnchorPane>
             <AnchorPane prefHeight="200.0" prefWidth="200.0">
-               <children>
-                  <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="14.0" layoutY="5.0" onAction="#gotoReturnBook" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
-                     <font>
-                        <Font name="System Bold" size="15.0" />
-                     </font>
-                     <cursor>
-                        <Cursor fx:constant="HAND" />
-                     </cursor>
-                     <styleClass>
-                        <String fx:value="myButton" />
-                        <String fx:value="borrowing-management" />
-                     </styleClass>
-                  </JFXButton>
-               </children>
+               <JFXButton alignment="CENTER" buttonType="RAISED" layoutX="14.0" layoutY="5.0" onAction="#gotoReturnBook"
+                          AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0"
+                          AnchorPane.topAnchor="10.0">
+                  <font>
+                     <Font name="System Bold" size="15.0"/>
+                  </font>
+                  <cursor>
+                     <Cursor fx:constant="HAND"/>
+                  </cursor>
+                  <styleClass>
+                     <String fx:value="myButton"/>
+                     <String fx:value="borrowing-management"/>
+                  </styleClass>
+               </JFXButton>
             </AnchorPane>
          </GridPane>
       </GridPane>

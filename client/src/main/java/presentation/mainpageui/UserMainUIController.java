@@ -2,15 +2,18 @@ package presentation.mainpageui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import presentation.bookui.BookReaderUIController;
+import object.po.User;
+import presentation.bookui.UserBookUIController;
 import presentation.recordui.ReturnBookUIController;
+import presentation.userui.UserInfoUIController;
+import utils.UIType;
 
 public class UserMainUIController extends BaseMainUIController {
 
     @FXML
     private void gotoOnlineReading(){
         root.showLogoutButton(false);
-        BookReaderUIController.init(root);
+        UserBookUIController.init(root);
     }
 
     @FXML
@@ -21,8 +24,8 @@ public class UserMainUIController extends BaseMainUIController {
 
     @FXML
     private void gotoUserInfo(){
-        //root.showLogoutButton(false);
-        //ReturnBookUIController.init(root);
+        root.showLogoutButton(false);
+        UserInfoUIController.init(null, new User(), UIType.USER_EDIT, root.getStage());
     }
 
 

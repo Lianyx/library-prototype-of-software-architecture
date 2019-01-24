@@ -86,3 +86,7 @@
 .return-book-button {
     -fx-background-image: url('../pics/functionui/return-book.png');
 }
+
+.borrow-book-button {
+    -fx-background-image: url('../pics/functionui/borrow-book.png');
+}

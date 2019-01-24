@@ -1,21 +1,21 @@
 package presentation.bookui;
 
 import com.qoppa.pdf.PDFException;
-import com.qoppa.pdfViewerFX.PDFViewer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import presentation.mainpageui.RootUIController;
 import presentation.mainpageui.UserMainUIController;
+import utils.FileTool;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
-public class BookReaderUIController extends BaseBookUIController {
+public class UserBookUIController extends BaseBookUIController {
 
     /**
      * 刷新界面，取得所有用户的列表，并显示在tableview中
@@ -51,36 +51,27 @@ public class BookReaderUIController extends BaseBookUIController {
 
     @FXML
     private void handleReadBook() throws FileNotFoundException, PDFException {
-//        if (isBookSelected()) {
-//
-//        }
         FileChooser fileChooser = new FileChooser();
-
-        // Set extension filter, only PDF files will be shown
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf");
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("HTML files (*.html)", "*.html");
         fileChooser.getExtensionFilters().add(extFilter);
-
-        // Show open file dialog
         File file = fileChooser.showOpenDialog(root.getStage());
 
-        Stage newStage = new Stage();
-        PDFViewer pdfViewer = new PDFViewer();
-        pdfViewer.loadPDF(new FileInputStream(file));
-        Scene scene = new Scene(new BorderPane(pdfViewer));
-//        String html = "" +
-//                "<html>" +
-//                "   <div>233</div>" +
-//                "   <button>button</button>" +
-//                "</html>";
-//        WebView webView = new WebView();
-//        webView.getEngine().loadContent(html);
-//        Scene scene = new Scene(new BorderPane(webView));
-        newStage.setScene(scene);
-        newStage.show();
+        if (file != null) {
+            Stage newStage = new Stage();
+//        PDFViewer pdfViewer = new PDFViewer();
+//        pdfViewer.loadPDF(new FileInputStream(file));
+//        Scene scene = new Scene(new BorderPane(pdfViewer));
+
+            WebView webView = new WebView();
+            webView.getEngine().loadContent(FileTool.readAllLines(file));
+            Scene scene = new Scene(new BorderPane(webView));
+            newStage.setScene(scene);
+            newStage.show();
+        }
     }
 
     @FXML
-    private void handleDownloadBook(){
+    private void handleBorrowBook(){
         if (isBookSelected()) {
 
         }
@@ -97,12 +88,12 @@ public class BookReaderUIController extends BaseBookUIController {
         try{
             // 加载登陆界面
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(BookReaderUIController.class.getResource("BookReaderUI.fxml"));
+            loader.setLocation(UserBookUIController.class.getResource("UserBookUI.fxml"));
             root.setCenterPane(loader.load());
 
-            BookReaderUIController controller = loader.getController();
+            UserBookUIController controller = loader.getController();
             controller.setRoot(root);
-            //controller.setUserBlService(UserBlFactory.getService());
+            //controller.setBookService(ServiceFactory.getBookService());
             //controller.refresh(null);
             root.setReturnPaneController(new UserMainUIController());
         }catch(Exception e){
