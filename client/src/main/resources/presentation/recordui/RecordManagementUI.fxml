@@ -10,10 +10,10 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" styleClass="background" stylesheets="@../../CSS/style.css, @../../CSS/button-style.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="presentation.recordui.RecordManagementUIController">
    <AnchorPane prefHeight="40.0" prefWidth="40.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
-      <JFXButton onAction="#handleEditRecord" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <JFXButton onAction="#handleExportRecord" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <styleClass>
             <String fx:value="special-button" />
-            <String fx:value="edit-button" />
+            <String fx:value="export-button" />
          </styleClass>
       </JFXButton>
    </AnchorPane>

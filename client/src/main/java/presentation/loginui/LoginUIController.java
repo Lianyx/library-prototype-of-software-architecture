@@ -4,9 +4,11 @@ import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.qoppa.pdf.PDFException;
 import com.qoppa.pdfViewerFX.PDFViewer;
+import factory.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
@@ -15,6 +17,8 @@ import object.po.User;
 import presentation.mainpageui.AdminMainUIController;
 import presentation.mainpageui.RootUIController;
 import presentation.mainpageui.UserMainUIController;
+import presentation.uitools.UITool;
+import service.TestService;
 import utils.SystemInfo;
 import utils.UserType;
 import vo.UserVO;
@@ -24,6 +28,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.rmi.RemoteException;
 
 public class LoginUIController {
 
@@ -57,8 +62,10 @@ public class LoginUIController {
     }
 
     @FXML
-    private void handleExit() {
-        System.exit(0);
+    private void handleExit() throws RemoteException {
+        //System.exit(0);
+        TestService testService = ServiceFactory.getService(TestService.class);
+        UITool.showAlert(Alert.AlertType.INFORMATION, "233", testService.getStr(3), "dasd");
     }
 
     public static void init(Stage stage){

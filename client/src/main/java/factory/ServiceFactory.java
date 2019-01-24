@@ -1,5 +1,6 @@
 package factory;
 
+import org.apache.poi.ss.formula.functions.T;
 import service.*;
 import utils.SystemInfo;
 
@@ -7,32 +8,26 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServiceFactory {
+    private static Map<Class<?>, Object> serviceMap = new HashMap<>();
 
-    public static BookService getBookService() throws RemoteException, NotBoundException, MalformedURLException {
-        return (BookService) Naming.lookup(SystemInfo.RML_BASE_URL.getValue() + "BookService");
+    @SuppressWarnings("unchecked")
+    public synchronized static <T> T getService(Class<T> serviceClass) {
+        if (serviceMap.containsKey(serviceClass)) {
+            return (T) serviceMap.get(serviceClass);
+        }
+        try {
+            int beginIndex = serviceClass.getName().lastIndexOf('.') + 1;
+            String s = SystemInfo.RML_BASE_URL.getValue() + serviceClass.getName().substring(beginIndex);
+            T newService = (T) Naming.lookup("rmi://localhost:1099/TestService");
+            serviceMap.put(serviceClass, newService);
+            return newService;
+        } catch (RemoteException | NotBoundException | MalformedURLException e) {
+            e.printStackTrace();
+            return (T) new Object();
+        }
     }
-
-    public static BorrowService getBorrowService() throws RemoteException, NotBoundException, MalformedURLException {
-        return (BorrowService) Naming.lookup(SystemInfo.RML_BASE_URL.getValue() + "BorrowService");
-    }
-
-    public static LoginService getLoginService() throws RemoteException, NotBoundException, MalformedURLException {
-        return (LoginService) Naming.lookup(SystemInfo.RML_BASE_URL.getValue() + "LoginService");
-    }
-
-    public static MessageService getMessageService() throws RemoteException, NotBoundException, MalformedURLException {
-        return (MessageService) Naming.lookup(SystemInfo.RML_BASE_URL.getValue() + "MessageService");
-    }
-
-    public static ReaderService getReaderService() throws RemoteException, NotBoundException, MalformedURLException {
-        return (ReaderService) Naming.lookup(SystemInfo.RML_BASE_URL.getValue() + "ReaderService");
-    }
-
-    public static UserService getUserService() throws RemoteException, NotBoundException, MalformedURLException {
-        return (UserService) Naming.lookup(SystemInfo.RML_BASE_URL.getValue() + "UserService");
-    }
-
-
 }
