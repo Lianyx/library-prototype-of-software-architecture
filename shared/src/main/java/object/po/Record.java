@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 public class Record implements Serializable {
     private String username, bookId, bookName;
     private LocalDateTime borrowTime, returnTime;
+    private double penalty;
 
     public Record() {
     }
@@ -49,6 +50,14 @@ public class Record implements Serializable {
         result = 31 * result + (borrowTime != null ? borrowTime.hashCode() : 0);
         result = 31 * result + (returnTime != null ? returnTime.hashCode() : 0);
         return result;
+    }
+
+    public double getPenalty() {
+        return penalty;
+    }
+
+    public void setPenalty(double penalty) {
+        this.penalty = penalty;
     }
 
     public String getUsername() {

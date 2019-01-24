@@ -41,8 +41,11 @@ CREATE TABLE Message (
 CREATE TABLE Record (
   username   VARCHAR(20),
   bookId     VARCHAR(20),
+
   borrowTime DATETIME,
-  returnTime DATETIME
+  returnTime DATETIME,
+
+  penalty    DOUBLE
   # enum需要处理
 )
   CHARACTER SET = utf8;
