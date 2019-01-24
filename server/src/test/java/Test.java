@@ -1,3 +1,4 @@
+import com.healthmarketscience.rmiio.SimpleRemoteInputStream;
 import dao.RecordDao;
 import dao.UserDao;
 import launcher.Main;
@@ -11,6 +12,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import service.*;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -225,11 +228,28 @@ public class Test {
             record.setBorrowTime(LocalDateTime.now().minusDays(12));
 
             recordDao.insert(record);
+            record = recordDao.selectUnreturnedByUsernameAndBookId(UnGradLi.getUsername(), calculus.getId());
+            assertEquals(0, record.getPenalty(), 0.00001);
 
             recordDao.updatePenalty();
 
-            Record record1 = recordDao.selectUnreturnedByUsernameAndBookId(UnGradLi.getUsername(), calculus.getId());
-            assertEquals(1.0, record1.getPenalty(), 0.00001);
+            record = recordDao.selectUnreturnedByUsernameAndBookId(UnGradLi.getUsername(), calculus.getId());
+            assertEquals(1.0, record.getPenalty(), 0.00001);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
+
+    @org.junit.Test
+    public void testReader() {
+        try {
+            ReaderService readerService = (ReaderService) Naming.lookup("rmi://localhost:1099/ReaderService");
+
+
+            SimpleRemoteInputStream istream = new SimpleRemoteInputStream(new FileInputStream("ebookDir/xx.pdf"));
+//            SimpleRemoteInputStream istream = new SimpleRemoteInputStream(new FileInputStream("/Users/tiberius/Documents/College/-Junior2/sa_jn2/hw3/library-prototype-of-software-architecture/server/ebookDir/xx.pdf"));
+            readerService.sendFile(istream.export(), "xxx", ".pdf");
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

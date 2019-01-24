@@ -20,7 +20,7 @@ public class RecordDaoImpl implements RecordDao {
             updatePenaltyQuery;
 
     public RecordDaoImpl() throws SQLException {
-        this.insertQuery = getStatement("INSERT INTO Record (username, bookId, borrowTime, returnTime) VALUES (?, ?, ?, ?);");
+        this.insertQuery = getStatement("INSERT INTO Record (username, bookId, borrowTime, returnTime, penalty) VALUES (?, ?, ?, ?, ?);");
         this.selectByUsernameQuery = getStatement("" +
                 "SELECT\n" +
                 "  Record.bookId,\n" +
@@ -85,16 +85,16 @@ public class RecordDaoImpl implements RecordDao {
 
         this.updatePenaltyQuery = getStatement("" +
                 "UPDATE Record, User, Role\n" +
-                "SET penalty = (DATEDIFF(Record.borrowTime, NOW()) - Role.dayLimit) * 0.5\n" +
+                "SET penalty = (DATEDIFF(NOW(), Record.borrowTime) - Role.dayLimit) * 0.5\n" +
                 "WHERE returnTime IS NULL\n" +
                 "      AND User.username = Record.username\n" +
                 "      AND User.role = Role.type\n" +
-                "      AND Role.dayLimit < DATEDIFF(Record.borrowTime, NOW());");
+                "      AND Role.dayLimit < DATEDIFF(NOW(), Record.borrowTime);");
     }
 
     @Override
     public void insert(Record record) throws SQLException {
-        voidQuery(insertQuery, record.getUsername(), record.getBookId(), record.getBorrowTime(), record.getReturnTime());
+        voidQuery(insertQuery, record.getUsername(), record.getBookId(), record.getBorrowTime(), record.getReturnTime(), record.getPenalty());
     }
 
     @Override

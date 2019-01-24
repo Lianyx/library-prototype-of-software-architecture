@@ -173,14 +173,18 @@ WHERE type IN (SELECT role
 
 
 UPDATE Record, User, Role
-SET penalty = (DATEDIFF(Record.borrowTime, NOW()) - Role.dayLimit) * 0.5
+SET penalty = (DATEDIFF(NOW(), Record.borrowTime) - Role.dayLimit) * 0.5
 WHERE returnTime IS NULL
       AND User.username = Record.username
       AND User.role = Role.type
-      AND Role.dayLimit < DATEDIFF(Record.borrowTime, NOW());
+      AND Role.dayLimit < DATEDIFF(NOW(), Record.borrowTime);
 
 
-
+SELECT DATEDIFF(NOW(), Record.borrowTime) - Role.dayLimit
+FROM Record, User, Role
+WHERE returnTime IS NULL
+      AND User.username = Record.username
+      AND User.role = Role.type
 
 
 
