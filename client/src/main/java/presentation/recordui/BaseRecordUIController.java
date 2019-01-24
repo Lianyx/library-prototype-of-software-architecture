@@ -8,25 +8,26 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import object.po.Record;
 import presentation.uitools.CenterUIController;
 import presentation.uitools.UITool;
-import vo.UserVO;
 
 import java.util.ArrayList;
 
 public abstract class BaseRecordUIController extends CenterUIController {
-    //private UserBlService userBlService;
+    //protected RecordService recordService;
 
-    protected ObservableList<UserVO> recordObservableList = FXCollections.observableArrayList();
+    protected ObservableList<Record> recordObservableList = FXCollections.observableArrayList();
     @FXML
-    protected TableView<UserVO> recordTableView;
+    protected TableView<Record> recordTableView;
     @FXML
-    protected TableColumn<UserVO,String> recordIDColumn;
+    protected TableColumn<Record,String> recordUsernameColumn;
     @FXML
-    protected TableColumn<UserVO,String> recordNameColumn;
+    protected TableColumn<Record,String> recordBookNameColumn;
     @FXML
-    protected TableColumn<UserVO,String> recordAuthorColumn;
+    protected TableColumn<Record,String> recordBorrowTimeColumn;
+    @FXML
+    protected TableColumn<Record,String> recordReturnTimeColumn;
 
     @FXML
     protected TextField searchInfo;
@@ -37,9 +38,10 @@ public abstract class BaseRecordUIController extends CenterUIController {
      * 设置显示的客户信息以及显示方法
      * */
     public void initialize(){
-        recordIDColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getId()));
-        recordNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getName()));
-        recordAuthorColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getType()));
+        recordUsernameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUsername()));
+        recordBookNameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getBookId()));
+        recordBorrowTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getBorrowTime())));
+        recordReturnTimeColumn.setCellValueFactory(cellData -> new SimpleStringProperty(String.valueOf(cellData.getValue().getReturnTime())));
     }
 
     // 设置controller数据的方法*****************************************
@@ -53,7 +55,7 @@ public abstract class BaseRecordUIController extends CenterUIController {
      * */
 //    private void refresh(UserQueryVO query){
 //        try {
-//            ArrayList<UserVO> userList = userBlService.getUserList(query);
+//            ArrayList<Record> userList = userBlService.getUserList(query);
 //            showUserList(userList);
 //        }catch(DataException e){
 //            UITool.showAlert(Alert.AlertType.ERROR,
@@ -64,12 +66,9 @@ public abstract class BaseRecordUIController extends CenterUIController {
 //        }
 //    }
 
-    /**
-     * 取得用户列表并修改ObservableList的信息
-     * */
-    protected void showList(ArrayList<UserVO> userList){
+    protected void showList(ArrayList<Record> recordList){
         recordObservableList.clear();
-        recordObservableList.setAll(userList);
+        recordObservableList.setAll(recordList);
         recordTableView.setItems(recordObservableList);
     }
 

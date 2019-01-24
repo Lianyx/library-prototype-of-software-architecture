@@ -2,7 +2,7 @@ package presentation.mainpageui;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import presentation.bookui.BookManagementUIController;
+import presentation.bookui.AdminBookUIController;
 import presentation.recordui.RecordManagementUIController;
 import presentation.userui.UserManagementUIController;
 
@@ -12,7 +12,7 @@ public class AdminMainUIController extends BaseMainUIController {
     @FXML
     private void gotoBookManagement(){
         root.showLogoutButton(false);
-        BookManagementUIController.init(root);
+        AdminBookUIController.init(root);
     }
 
     @FXML

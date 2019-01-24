@@ -9,7 +9,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import blservice.impl.UserBlServiceImpl;
+import object.po.User;
 import presentation.mainpageui.AdminMainUIController;
 import presentation.mainpageui.RootUIController;
 import presentation.uitools.CenterUIController;
@@ -93,7 +93,7 @@ public class UserManagementUIController extends CenterUIController {
 
     @FXML
     private void handleAddUser(){
-        UserInfoUIController.init(new UserBlServiceImpl(), new UserVO(), UIType.ADD, root.getStage());
+        UserInfoUIController.init(null, new User(), UIType.ADD, root.getStage());
 //        refresh(null);
     }
 
@@ -138,11 +138,10 @@ public class UserManagementUIController extends CenterUIController {
     }
 
     private boolean isUserSelected(){
-        int selectedIndex=userTableView.getSelectionModel().getSelectedIndex();
-        if(selectedIndex>=0){
+        int selectedIndex = userTableView.getSelectionModel().getSelectedIndex();
+        if (selectedIndex>=0) {
             return true;
-        }else{
-            // Nothing selected
+        } else {
             UITool.showAlert(Alert.AlertType.ERROR,
                     "No Selection","未选中用户","请在表中选择用户");
             return false;

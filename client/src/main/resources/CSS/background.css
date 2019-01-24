@@ -3,10 +3,6 @@
     -fx-background-image: url('../pics/mainui/background/borrowing-management.png');
 }
 
-.online-reading {
-    -fx-background-image: url('../pics/mainui/background/online-reading.png');
-}
-
 .user-info-management {
     -fx-background-image: url('../pics/mainui/background/user-info-management.png');
 }
