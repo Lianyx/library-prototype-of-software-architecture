@@ -213,4 +213,26 @@ public class Test {
             assertTrue(false);
         }
     }
+
+    @org.junit.Test
+    public void testSchedule() {
+        try {
+            RecordDao recordDao = getService(RecordDao.class);
+
+            Record record = new Record();
+            record.setUsername(UnGradLi.getUsername());
+            record.setBookId(calculus.getId());
+            record.setBorrowTime(LocalDateTime.now().minusDays(12));
+
+            recordDao.insert(record);
+
+            recordDao.updatePenalty();
+
+            Record record1 = recordDao.selectUnreturnedByUsernameAndBookId(UnGradLi.getUsername(), calculus.getId());
+            assertEquals(1.0, record1.getPenalty(), 0.00001);
+        } catch (Exception e) {
+            e.printStackTrace();
+            assertTrue(false);
+        }
+    }
 }

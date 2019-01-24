@@ -1,12 +1,19 @@
 package launcher;
 
 import annotation.RMIRemote;
+import dao.RecordDao;
 import org.reflections.Reflections;
 
 import java.rmi.Naming;
 import java.rmi.Remote;
 import java.rmi.registry.LocateRegistry;
+import java.sql.SQLException;
 import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import static dao.util.DaoFactory.getService;
 
 public class Main {
 
@@ -27,8 +34,23 @@ public class Main {
             }
             System.out.println("Server ready");
 
+            checkPenaltySchedule();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private static void checkPenaltySchedule() {
+        RecordDao recordDao = getService(RecordDao.class);
+
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(() -> {
+            try {
+                System.out.println("scheduler running");
+                recordDao.updatePenalty();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }, 0, 20, TimeUnit.SECONDS);
     }
 }

@@ -1,13 +1,11 @@
 package dao;
 
-import object.po.Book;
 import object.po.Record;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import static dao.util.DaoFactory.getService;
 import static dao.util.Util.*;
 
 public class RecordDaoImpl implements RecordDao {
@@ -18,7 +16,8 @@ public class RecordDaoImpl implements RecordDao {
             selectUnreturnedByUsernameQuery,
             selectUnreturnedByUsernameAndBookIdQuery,
             selectUnreturnedByBookIdQuery,
-            updateQuery;
+            updateQuery,
+            updatePenaltyQuery;
 
     public RecordDaoImpl() throws SQLException {
         this.insertQuery = getStatement("INSERT INTO Record (username, bookId, borrowTime, returnTime) VALUES (?, ?, ?, ?);");
@@ -28,6 +27,7 @@ public class RecordDaoImpl implements RecordDao {
                 "  Record.username,\n" +
                 "  Record.borrowTime,\n" +
                 "  Record.returnTime,\n" +
+                "  Record.penalty,\n" +
                 "  Book.name AS bookName\n" +
                 "FROM Record, Book\n" +
                 "WHERE Record.bookId = Book.id and username = ?");
@@ -37,6 +37,7 @@ public class RecordDaoImpl implements RecordDao {
                 "  Record.username,\n" +
                 "  Record.borrowTime,\n" +
                 "  Record.returnTime,\n" +
+                "  Record.penalty,\n" +
                 "  Book.name AS bookName\n" +
                 "FROM Record, Book\n" +
                 "WHERE Record.bookId = Book.id\n" +
@@ -49,13 +50,15 @@ public class RecordDaoImpl implements RecordDao {
                 "  Record.username,\n" +
                 "  Record.borrowTime,\n" +
                 "  Record.returnTime,\n" +
+                "  Record.penalty,\n" +
                 "  Book.name AS bookName\n" +
                 "FROM Record, Book\n" +
                 "WHERE Record.bookId = Book.id\n" +
                 "  AND username = ? AND returnTime is NULL;");
+        // TODO
         this.updateQuery = getStatement("" +
                 "UPDATE Record\n" +
-                "SET returnTime = ?\n" +
+                "SET returnTime = ?, penalty = ?\n" +
                 "WHERE username = ? AND bookId = ? AND borrowTime = ?;");
         this.selectUnreturnedByUsernameAndBookIdQuery = getStatement("" +
                 "SELECT\n" +
@@ -63,6 +66,7 @@ public class RecordDaoImpl implements RecordDao {
                 "  Record.username,\n" +
                 "  Record.borrowTime,\n" +
                 "  Record.returnTime,\n" +
+                "  Record.penalty,\n" +
                 "  Book.name AS bookName\n" +
                 "FROM Record, Book\n" +
                 "WHERE Record.bookId = Book.id" +
@@ -73,10 +77,19 @@ public class RecordDaoImpl implements RecordDao {
                 "  Record.username,\n" +
                 "  Record.borrowTime,\n" +
                 "  Record.returnTime,\n" +
+                "  Record.penalty,\n" +
                 "  Book.name AS bookName\n" +
                 "FROM Record, Book\n" +
                 "WHERE Record.bookId = Book.id" +
                 "  and bookId = ? and returnTime is NULL;");
+
+        this.updatePenaltyQuery = getStatement("" +
+                "UPDATE Record, User, Role\n" +
+                "SET penalty = (DATEDIFF(Record.borrowTime, NOW()) - Role.dayLimit) * 0.5\n" +
+                "WHERE returnTime IS NULL\n" +
+                "      AND User.username = Record.username\n" +
+                "      AND User.role = Role.type\n" +
+                "      AND Role.dayLimit < DATEDIFF(Record.borrowTime, NOW());");
     }
 
     @Override
@@ -112,10 +125,15 @@ public class RecordDaoImpl implements RecordDao {
 
     @Override
     public void update(Record record) throws SQLException {
-        voidQuery(updateQuery, record.getReturnTime(), record.getUsername(), record.getBookId(), record.getBorrowTime());
+        voidQuery(updateQuery, record.getReturnTime(), record.getPenalty(), record.getUsername(), record.getBookId(), record.getBorrowTime());
     }
 
-//    private void setBookName(ArrayList<Record> records) throws SQLException {
+    @Override
+    public void updatePenalty() throws SQLException {
+        voidQuery(updatePenaltyQuery);
+    }
+
+    //    private void setBookName(ArrayList<Record> records) throws SQLException {
 //        BookDao bookDao = getService(BookDao.class);
 //        for (Record record : records) {
 //            Book book = bookDao.selectById(record.getBookId());

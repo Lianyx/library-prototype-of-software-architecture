@@ -159,6 +159,7 @@ SELECT
   Record.username,
   Record.borrowTime,
   Record.returnTime,
+  Record.penalty,
   Book.name AS bookName
 FROM Record, Book
 WHERE Record.bookId = Book.id;
@@ -171,10 +172,12 @@ WHERE type IN (SELECT role
       OR toUsername = ?;
 
 
-
-
-
-
+UPDATE Record, User, Role
+SET penalty = (DATEDIFF(Record.borrowTime, NOW()) - Role.dayLimit) * 0.5
+WHERE returnTime IS NULL
+      AND User.username = Record.username
+      AND User.role = Role.type
+      AND Role.dayLimit < DATEDIFF(Record.borrowTime, NOW());
 
 
 

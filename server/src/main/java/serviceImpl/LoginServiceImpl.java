@@ -21,14 +21,16 @@ public class LoginServiceImpl extends UnicastRemoteObject implements LoginServic
     }
 
     @Override
-    public void login(String username, String password) throws RemoteException {
+    public User login(String username, String password) throws RemoteException {
         try {
             User user = userDao.selectByUsername(username);
             if (user == null || ! user.getPassword().equals(password)) {
                 throw new InvalidLoginException();
             }
+            return user;
         } catch (SQLException e) {
             e.printStackTrace();
+            return null;
         }
     }
 }
