@@ -14,27 +14,69 @@ public class RecordDaoImpl implements RecordDao {
     private PreparedStatement
             insertQuery,
             selectByUsernameQuery,
+            searchQuery,
             selectUnreturnedByUsernameQuery,
             selectUnreturnedByUsernameAndBookIdQuery,
             selectUnreturnedByBookIdQuery,
             updateQuery;
 
     public RecordDaoImpl() throws SQLException {
-        this.insertQuery = getStatement("INSERT INTO Record (username, bookId, borrowTime, returnTime) VALUES (?, ?, ?, ?, ?);");
+        this.insertQuery = getStatement("INSERT INTO Record (username, bookId, borrowTime, returnTime) VALUES (?, ?, ?, ?);");
         this.selectByUsernameQuery = getStatement("" +
-                "SELECT *\n" +
-                "FROM Record\n" +
-                "WHERE username = ?;");
+                "SELECT\n" +
+                "  Record.bookId,\n" +
+                "  Record.username,\n" +
+                "  Record.borrowTime,\n" +
+                "  Record.returnTime,\n" +
+                "  Book.name AS bookName\n" +
+                "FROM Record, Book\n" +
+                "WHERE Record.bookId = Book.id and username = ?");
+        this.searchQuery = getStatement("" +
+                "SELECT\n" +
+                "  Record.bookId,\n" +
+                "  Record.username,\n" +
+                "  Record.borrowTime,\n" +
+                "  Record.returnTime,\n" +
+                "  Book.name AS bookName\n" +
+                "FROM Record, Book\n" +
+                "WHERE Record.bookId = Book.id\n" +
+                "      AND username LIKE ?\n" +
+                "      AND Book.name LIKE ?;");
+
         this.selectUnreturnedByUsernameQuery = getStatement("" +
-                "select * from Record where username = ? and returnTime is NULL;");
+                "SELECT\n" +
+                "  Record.bookId,\n" +
+                "  Record.username,\n" +
+                "  Record.borrowTime,\n" +
+                "  Record.returnTime,\n" +
+                "  Book.name AS bookName\n" +
+                "FROM Record, Book\n" +
+                "WHERE Record.bookId = Book.id\n" +
+                "  AND username = ? AND returnTime is NULL;");
         this.updateQuery = getStatement("" +
                 "UPDATE Record\n" +
                 "SET returnTime = ?\n" +
                 "WHERE username = ? AND bookId = ? AND borrowTime = ?;");
         this.selectUnreturnedByUsernameAndBookIdQuery = getStatement("" +
-                "select * from Record where username = ? and bookId = ? and returnTime is NULL;");
+                "SELECT\n" +
+                "  Record.bookId,\n" +
+                "  Record.username,\n" +
+                "  Record.borrowTime,\n" +
+                "  Record.returnTime,\n" +
+                "  Book.name AS bookName\n" +
+                "FROM Record, Book\n" +
+                "WHERE Record.bookId = Book.id" +
+                "   and username = ? and bookId = ? and returnTime is NULL;");
         this.selectUnreturnedByBookIdQuery = getStatement("" +
-                "select * from Record where bookId = ? and returnTime is NULL;");
+                "SELECT\n" +
+                "  Record.bookId,\n" +
+                "  Record.username,\n" +
+                "  Record.borrowTime,\n" +
+                "  Record.returnTime,\n" +
+                "  Book.name AS bookName\n" +
+                "FROM Record, Book\n" +
+                "WHERE Record.bookId = Book.id" +
+                "  and bookId = ? and returnTime is NULL;");
     }
 
     @Override
@@ -44,29 +86,27 @@ public class RecordDaoImpl implements RecordDao {
 
     @Override
     public ArrayList<Record> selectByUsername(String username) throws SQLException {
-        ArrayList<Record> records = retrieveQuery(Record.class, selectByUsernameQuery, username);
-        setBookName(records);
-        return records;
+        return retrieveQuery(Record.class, selectByUsernameQuery, username);
+    }
+
+    @Override
+    public ArrayList<Record> search(String keyword) throws SQLException {
+        return retrieveQuery(Record.class, searchQuery, "%" + keyword + "%", "%" + keyword + "%");
     }
 
     @Override
     public ArrayList<Record> selectUnreturnedByUsername(String username) throws SQLException {
-        ArrayList<Record> records = retrieveQuery(Record.class, selectUnreturnedByUsernameQuery, username);
-        setBookName(records);
-        return records;
+        return retrieveQuery(Record.class, selectUnreturnedByUsernameQuery, username);
     }
 
     @Override
     public ArrayList<Record> selectUnreturnedByBookId(String bookId) throws SQLException {
-        ArrayList<Record> records = retrieveQuery(Record.class, selectUnreturnedByBookIdQuery, bookId);;
-        setBookName(records);
-        return records;
+        return retrieveQuery(Record.class, selectUnreturnedByBookIdQuery, bookId);
     }
 
     @Override
     public Record selectUnreturnedByUsernameAndBookId(String username, String bookId) throws SQLException {
         ArrayList<Record> records = retrieveQuery(Record.class, selectUnreturnedByUsernameAndBookIdQuery, username, bookId);
-        setBookName(records); // 应该只会有一个
         return records.get(0);
     }
 
@@ -75,11 +115,11 @@ public class RecordDaoImpl implements RecordDao {
         voidQuery(updateQuery, record.getReturnTime(), record.getUsername(), record.getBookId(), record.getBorrowTime());
     }
 
-    private void setBookName(ArrayList<Record> records) throws SQLException {
-        BookDao bookDao = getService(BookDao.class);
-        for (Record record : records) {
-            Book book = bookDao.selectById(record.getBookId());
-            record.setBookName(book.getName());
-        }
-    }
+//    private void setBookName(ArrayList<Record> records) throws SQLException {
+//        BookDao bookDao = getService(BookDao.class);
+//        for (Record record : records) {
+//            Book book = bookDao.selectById(record.getBookId());
+//            record.setBookName(book.getName());
+//        }
+//    }
 }

@@ -14,13 +14,13 @@ import static dao.util.Util.*;
 import static dao.util.DaoFactory.getService;
 
 public class RoleDaoImpl implements RoleDao {
-    private PreparedStatement insertQuery, selectByIdQuery, selectAllQuery;
+    private PreparedStatement insertQuery, selectByTypeQuery, selectAllQuery;
     private PreparedStatement insertCategoriesQuery, selectCategoriesByTypeQuery;
 
     public RoleDaoImpl() throws SQLException {
         this.insertQuery = getStatement("INSERT INTO Role (type, maximum, dayLimit) VALUES (?, ?, ?);");
         this.selectAllQuery = getStatement("select * from Role;");
-        this.selectByIdQuery = getStatement("" +
+        this.selectByTypeQuery = getStatement("" +
                 "SELECT *\n" +
                 "FROM Role\n" +
                 "WHERE type = ?;");
@@ -41,8 +41,8 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Role selectById(String id) throws SQLException {
-        List<Role> roles = retrieveQuery(Role.class, selectByIdQuery, id);
+    public Role selectByType(String id) throws SQLException {
+        List<Role> roles = retrieveQuery(Role.class, selectByTypeQuery, id);
         if (roles.isEmpty()) {
             return null;
         }

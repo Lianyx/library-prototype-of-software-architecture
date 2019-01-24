@@ -1,9 +1,11 @@
 package serviceImpl;
 
 import annotation.RMIRemote;
+import dao.MessageDao;
 import dao.RoleDao;
 import dao.UserDao;
 import object.exception.AlreadyExistException;
+import object.po.Message;
 import object.po.Role;
 import object.po.User;
 import service.UserService;
@@ -19,10 +21,12 @@ import static dao.util.DaoFactory.getService;
 public class UserServiceImpl extends UnicastRemoteObject implements UserService {
     private UserDao userDao;
     private RoleDao roleDao;
+    private MessageDao messageDao;
 
     public UserServiceImpl() throws RemoteException {
         userDao = getService(UserDao.class);
         roleDao = getService(RoleDao.class);
+        messageDao = getService(MessageDao.class);
     }
 
     @Override
@@ -72,6 +76,9 @@ public class UserServiceImpl extends UnicastRemoteObject implements UserService 
         // 不可能invalid。。
         try {
             userDao.update(user);
+
+            Message message = new Message("管理员", "用户" + user.getUsername() + "修改个人信息");
+            messageDao.insert(message);
         } catch (SQLException e) {
             e.printStackTrace();
         }

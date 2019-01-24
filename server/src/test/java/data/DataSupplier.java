@@ -28,8 +28,8 @@ public class DataSupplier {
 
     public static Role
             teacher = new Role("老师", 15, 40, new HashSet<>(Arrays.asList(history, cs, math, classics))),
-            undergraduate = new Role("本科生", 5, 10, new HashSet<>(Arrays.asList(cs, math))),
-            graduate = new Role("研究生", 10, 20, new HashSet<>(Arrays.asList(history, cs, math))),
+            undergraduate = new Role("本科生", 2, 10, new HashSet<>(Arrays.asList(cs, math))),
+            graduate = new Role("研究生", 5, 20, new HashSet<>(Arrays.asList(history, cs, math))),
             admin = new Role("管理员", 0, 0, new HashSet<>(Collections.emptyList()));
 
     public static User
@@ -40,12 +40,15 @@ public class DataSupplier {
 
     public static Book
             network = new Book("NW", "计算机网络", "谢某", null, null, cs),
-            calculus = new Book("CCL", "微积分计算", "肖", null, null, math);
+            calculus = new Book("CCL", "微积分计算", "肖", null, null, math),
+            republic = new Book("RP", "理想国", "Plato", null, null, classics),
+            medieval = new Book("MH", "an introduction to medieval history", "XX", null, null, history),
+            OS = new Book("OS", "操作系统", "葛", null, null, cs);
 
     public static Set<Category> categories = new HashSet<>(Arrays.asList(history, cs, math, classics));
     public static Set<Role> roles = new HashSet<>(Arrays.asList(teacher, undergraduate, graduate, admin));
     public static Set<User> users = new HashSet<>(Arrays.asList(MrWang, GradZhang, UnGradLi, adminUser));
-    public static Set<Book> books = new HashSet<>(Arrays.asList(network, calculus));
+    public static Set<Book> books = new HashSet<>(Arrays.asList(network, calculus, republic, medieval, OS));
 
     public static void initializeData() throws SQLException {
         executeVoidSql("delete from Book");
@@ -58,27 +61,23 @@ public class DataSupplier {
         executeVoidSql("delete from RoleCategory");
 
         CategoryDao categoryDao = getService(CategoryDao.class);
-        categoryDao.insert(history);
-        categoryDao.insert(cs);
-        categoryDao.insert(math);
-        categoryDao.insert(classics);
+        for (Category category : categories) {
+            categoryDao.insert(category);
+        }
 
         RoleDao roleDao = getService(RoleDao.class);
-        roleDao.insert(teacher);
-        roleDao.insert(undergraduate);
-        roleDao.insert(graduate);
-        roleDao.insert(admin);
+        for (Role role : roles) {
+            roleDao.insert(role);
+        }
 
         UserDao userDao = getService(UserDao.class);
-        userDao.insert(MrWang);
-        userDao.insert(GradZhang);
-        userDao.insert(UnGradLi);
-        userDao.insert(adminUser);
+        for (User user : users) {
+            userDao.insert(user);
+        }
 
         BookDao bookDao = getService(BookDao.class);
-        Book network = new Book("NW", "计算机网络", "谢某", null, null, cs);
-        Book calculus = new Book("CCL", "微积分计算", "肖", null, null, math);
-        bookDao.insert(network);
-        bookDao.insert(calculus);
+        for (Book book : books) {
+            bookDao.insert(book);
+        }
     }
 }
