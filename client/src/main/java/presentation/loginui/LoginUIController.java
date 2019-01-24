@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import object.po.User;
 import presentation.mainpageui.AdminMainUIController;
 import presentation.mainpageui.RootUIController;
 import presentation.mainpageui.UserMainUIController;
@@ -39,10 +40,7 @@ public class LoginUIController {
 
     @FXML
     private void handleLogin(){
-        UserVO user = new UserVO();
-        user.setId("233");
-        user.setName("陈骁");
-        user.setType(UserType.ADMINISTRATOR.getName());
+        User user = new User();
 
         stage.close();
         Stage newStage = new Stage();

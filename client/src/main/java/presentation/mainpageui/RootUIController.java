@@ -9,6 +9,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import lombok.Data;
+import object.po.User;
 import presentation.loginui.LoginUIController;
 import presentation.uitools.CenterUIController;
 import utils.SystemInfo;
@@ -17,7 +18,7 @@ import vo.UserVO;
 @Data
 public class RootUIController {
     private Stage stage;
-    private UserVO operator;
+    private User operator;
     private BorderPane rootPane;
     private CenterUIController returnPaneController;
 
@@ -36,11 +37,10 @@ public class RootUIController {
         this.stage = stage;
     }
 
-    private void setOperator(UserVO operator) {
+    private void setOperator(User operator) {
         this.operator = operator;
-        name.setText(operator.getName());
-        id.setText(operator.getId());
-        type.setText(operator.getType());
+        name.setText(operator.getUsername());
+        type.setText("233");
     }
 
     public void setCenterPane(AnchorPane centerPane){
@@ -74,7 +74,7 @@ public class RootUIController {
         returnPaneController.instanceInit(this);
     }
 
-    public static RootUIController initRoot(Stage stage, UserVO operator){
+    public static RootUIController initRoot(Stage stage, User operator){
         try{
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(RootUIController.class.getResource("RootUI.fxml"));

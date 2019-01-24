@@ -29,19 +29,7 @@
                <ImageView fitHeight="50.0" fitWidth="50.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0">
                   <Image url="@../../pics/mainui/common/workCard.png" />
                </ImageView>
-               <VBox layoutX="-21.0" layoutY="-5.0" prefHeight="60.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="0.0">
-                  <HBox spacing="5.0">
-                     <Label prefHeight="20.0" prefWidth="45.0" text="编号：" textFill="WHITE">
-                        <font>
-                           <Font name="System Bold" size="15.0" />
-                        </font>
-                     </Label>
-                     <Label fx:id="id" prefHeight="20.0" prefWidth="160.0" textFill="WHITE">
-                        <font>
-                           <Font name="System Bold" size="15.0" />
-                        </font>
-                     </Label>
-                  </HBox>
+               <VBox alignment="CENTER" layoutX="-21.0" layoutY="-5.0" prefHeight="40.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="70.0" AnchorPane.topAnchor="10.0">
                   <HBox spacing="5.0">
                      <Label prefHeight="20.0" prefWidth="45.0" text="姓名：" textFill="WHITE">
                         <font>

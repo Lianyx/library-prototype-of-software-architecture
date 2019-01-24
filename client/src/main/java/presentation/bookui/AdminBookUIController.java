@@ -1,17 +1,15 @@
 package presentation.bookui;
 
-import blservice.impl.UserBlServiceImpl;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
+import object.po.Book;
 import presentation.mainpageui.AdminMainUIController;
 import presentation.mainpageui.RootUIController;
 import presentation.uitools.UITool;
-import presentation.userui.UserInfoUIController;
 import utils.UIType;
-import vo.UserVO;
 
-public class BookManagementUIController extends BaseBookUIController {
+public class AdminBookUIController extends BaseBookUIController {
 
     // 设置controller数据的方法*****************************************
 
@@ -51,9 +49,8 @@ public class BookManagementUIController extends BaseBookUIController {
     }
 
     @FXML
-    private void handleAddUser(){
-        UserInfoUIController.init(new UserBlServiceImpl(), new UserVO(), UIType.ADD, root.getStage());
-//        refresh(null);
+    private void handleAddBook(){
+        BookInfoUIController.init(null, new Book(), UIType.ADD, root.getStage());
     }
 
     @FXML
@@ -90,12 +87,12 @@ public class BookManagementUIController extends BaseBookUIController {
         try{
             // 加载登陆界面
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(BookManagementUIController.class.getResource("BookManagementUI.fxml"));
+            loader.setLocation(AdminBookUIController.class.getResource("AdminBookUI.fxml"));
             root.setCenterPane(loader.load());
 
-            BookManagementUIController controller = loader.getController();
+            AdminBookUIController controller = loader.getController();
             controller.setRoot(root);
-            //controller.setUserBlService(UserBlFactory.getService());
+            //controller.setBookService(ServiceFactory.getBookService());
             //controller.refresh(null);
             root.setReturnPaneController(new AdminMainUIController());
         }catch(Exception e){

@@ -11,29 +11,35 @@ import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.Data;
-import blservice.UserBlService;
+import lombok.Setter;
+import object.po.Role;
+import object.po.User;
 import presentation.uitools.UITool;
+import service.UserService;
 import utils.UIType;
 import utils.UserType;
-import vo.UserVO;
 
-@Data
+@Setter
 public class UserInfoUIController {
-    private UserVO user;
-    private UserBlService userBlService;
+    private User user;
+    private UserService userService;
 
     @FXML
-    private TextField ID; // 用户编号
+    private TextField username;
     @FXML
-    private TextField type; // 用户类别
-    @FXML
-    private TextField name; // 姓名
+    private TextField type;
     @FXML
     private TextField password; // 密码
     @FXML
-    private TextField borrowingNumber; // 可借阅书本数
+    private TextField debt;
     @FXML
-    private TextField borrowingDays; // 可借阅时长
+    private TextField maximum;
+    @FXML
+    private TextField dayLimit;
+    @FXML
+    private TextField categories;
+    @FXML
+    private TextField permission;
 
     @FXML
     private ChoiceBox<String> typeChoiceBox;
@@ -49,21 +55,27 @@ public class UserInfoUIController {
         typeChoiceBox.setItems(FXCollections.observableArrayList(typeList));
         typeChoiceBox.getSelectionModel().selectedIndexProperty().addListener((ov,oldValue,newValue)->{
             type.setText(typeList[newValue.intValue()]);
-            user.setType(typeList[newValue.intValue()]);
+            //user.getRole().setType(typeList[newValue.intValue()]);
         });
 
     }
 
     // 设置controller数据的方法*****************************************
 
-    private void setUser(UserVO user) {
+    private void setUser(User user) {
         this.user = user;
-        ID.setText(user.getId());
-        type.setText(user.getType());
-        name.setText(user.getName());
+        username.setText(user.getUsername());
         password.setText(user.getPassword());
-        borrowingNumber.setText(String.valueOf(user.getBorrowingNumber()));
-        borrowingDays.setText(String.valueOf(user.getBorrowingDays()));
+        debt.setText(String.valueOf(user.getDebt()));
+        permission.setText(String.valueOf(user.getPermissions()));
+        //setRole(user.getRole());
+    }
+
+    private void setRole(Role role) {
+        type.setText(role.getType());
+        maximum.setText(String.valueOf(role.getMaximum()));
+        dayLimit.setText(String.valueOf(role.getDayLimit()));
+        categories.setText(String.valueOf(role.getCategories()));
     }
 
     private void setPaneType(UIType type) {
@@ -134,45 +146,32 @@ public class UserInfoUIController {
     private boolean isInputValid(){
         String errorMessage = "";
 
+        if (username.getText().length() == 0) {
+            errorMessage += ("未输入用户名。" + System.lineSeparator());
+        }
         if (type.getText().length() == 0) {
             errorMessage += ("未选择用户类型。" + System.lineSeparator());
         }
-        if (name.getText().length() == 0) {
-            errorMessage += ("未输入用户姓名。" + System.lineSeparator());
-        }
         if (password.getText().length() == 0) {
-            errorMessage += ("未输入用户权限。" + System.lineSeparator());
+            errorMessage += ("未输入用户密码。" + System.lineSeparator());
         }
-        if (borrowingNumber.getText().length() == 0) {
-            errorMessage += ("未输入用户可借阅书本数。" + System.lineSeparator());
-        }
-        if (borrowingDays.getText().length() == 0) {
-            errorMessage += ("未输入用户可借阅天数。" + System.lineSeparator());
+        if (debt.getText().length() == 0) {
+            errorMessage += ("未输入用户欠款。" + System.lineSeparator());
         }
         else {
             try {
-                int i = Integer.parseInt(borrowingNumber.getText());
-                if (i <= 0)
+                double d = Double.parseDouble(debt.getText());
+                if (d <= 0)
                     throw new NumberFormatException();
             } catch (NumberFormatException e) {
-                errorMessage += ("用户可借阅书本数必须是正整数。" + System.lineSeparator());
-            }
-
-            try {
-                int i = Integer.parseInt(borrowingDays.getText());
-                if (i <= 0)
-                    throw new NumberFormatException();
-            } catch (NumberFormatException e) {
-                errorMessage += ("用户可借阅天数必须是正整数。" + System.lineSeparator());
+                errorMessage += ("用户欠款必须是非负数。" + System.lineSeparator());
             }
         }
 
         if (errorMessage.length() == 0){
-            user.setType(type.getText());
-            user.setName(name.getText());
+            user.setUsername(username.getText());
             user.setPassword(password.getText());
-            user.setBorrowingNumber(Integer.parseInt(borrowingNumber.getText()));
-            user.setBorrowingDays(Integer.parseInt(borrowingDays.getText()));
+            user.setDebt(Double.parseDouble(debt.getText()));
             return true;
         } else {
             UITool.showAlert(Alert.AlertType.ERROR, "用户信息错误","请检查用户信息的输入", errorMessage);
@@ -185,7 +184,7 @@ public class UserInfoUIController {
     /**
      * 静态初始化方法，加载相应的FXML文件，并添加一些信息
      * */
-    public static void init(UserBlService service, UserVO user, UIType type, Stage stage){
+    public static void init(UserService service, User user, UIType type, Stage stage){
         try{
             // 加载登陆界面
             FXMLLoader loader=new FXMLLoader();
@@ -200,7 +199,7 @@ public class UserInfoUIController {
             dialogStage.setScene(new Scene(loader.load()));
 
             UserInfoUIController controller=loader.getController();
-            controller.setUserBlService(service);
+            controller.setUserService(service);
             controller.setUser(user);
             controller.setDialogStage(dialogStage);
             controller.setPaneType(type);
