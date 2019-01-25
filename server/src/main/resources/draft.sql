@@ -187,9 +187,16 @@ WHERE returnTime IS NULL
       AND User.role = Role.type
 
 
-
-
-
+SELECT
+  Record.bookId,
+  Record.username,
+  Record.borrowTime,
+  Record.returnTime,
+  Record.penalty,
+  Book.name AS bookName
+FROM Record, Book
+WHERE Record.bookId = Book.id
+      AND (username LIKE ? OR Book.name LIKE ?);
 
 
 

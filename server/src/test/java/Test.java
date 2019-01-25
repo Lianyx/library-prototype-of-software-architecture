@@ -33,10 +33,10 @@ import static dao.util.DaoFactory.getService;
 
 public class Test {
 
-//    @BeforeClass
-//    public static void before() {
-//        Main.main(new String[]{});
-//    }
+    @BeforeClass
+    public static void before() {
+        Main.main(new String[]{});
+    }
 
     @Before
     public void initialData() {
@@ -157,7 +157,11 @@ public class Test {
             recordService.returnBook(MrWang.getUsername(), calculus.getId());
             assertTrue(recordDao.selectUnreturnedByUsername(MrWang.getUsername()).isEmpty());
 
-            // search沒测
+            ArrayList<Record> records = recordService.searchRecords("MrWang");
+            assertEquals("MrWang", records.get(0).getUsername());
+            records = recordService.searchRecords("微");
+            assertEquals("MrWang", records.get(0).getUsername());
+
 
             try {
                 recordService.borrowBook(UnGradLi.getUsername(), republic.getId());
@@ -246,20 +250,20 @@ public class Test {
         }
     }
 
-    @org.junit.Test
-    public void testReader() {
-        try {
-            ReaderService readerService = (ReaderService) Naming.lookup("rmi://localhost:1099/ReaderService");
-
-
-            SimpleRemoteInputStream istream = new SimpleRemoteInputStream(new FileInputStream("ebookDir/xx.pdf"));
-//            SimpleRemoteInputStream istream = new SimpleRemoteInputStream(new FileInputStream("/Users/tiberius/Documents/College/-Junior2/sa_jn2/hw3/library-prototype-of-software-architecture/server/ebookDir/xx.pdf"));
-            readerService.sendFile(istream.export(), "xxx", ".pdf");
-        } catch (Exception e) {
-            e.printStackTrace();
-            assertTrue(false);
-        }
-    }
+//    @org.junit.Test
+//    public void testReader() {
+//        try {
+//            ReaderService readerService = (ReaderService) Naming.lookup("rmi://localhost:1099/ReaderService");
+//
+//
+//            SimpleRemoteInputStream istream = new SimpleRemoteInputStream(new FileInputStream("ebookDir/xx.pdf"));
+////            SimpleRemoteInputStream istream = new SimpleRemoteInputStream(new FileInputStream("/Users/tiberius/Documents/College/-Junior2/sa_jn2/hw3/library-prototype-of-software-architecture/server/ebookDir/xx.pdf"));
+//            readerService.sendFile(istream.export(), "xxx", ".pdf");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            assertTrue(false);
+//        }
+//    }
 
 //    @org.junit.Test
 //    public void testObserver() {

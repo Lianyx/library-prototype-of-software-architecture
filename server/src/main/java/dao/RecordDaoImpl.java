@@ -41,8 +41,7 @@ public class RecordDaoImpl implements RecordDao {
                 "  Book.name AS bookName\n" +
                 "FROM Record, Book\n" +
                 "WHERE Record.bookId = Book.id\n" +
-                "      AND username LIKE ?\n" +
-                "      AND Book.name LIKE ?;");
+                "      AND (username LIKE ? OR Book.name LIKE ?);");
 
         this.selectUnreturnedByUsernameQuery = getStatement("" +
                 "SELECT\n" +

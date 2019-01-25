@@ -51,7 +51,7 @@ public class RmiServiceImpl extends Observable implements RmiService {
                             return -1;
                         }
                         return a.getContent().compareTo(b.getContent());
-                    }).findFirst().orElse(new Message());
+                    }).findFirst().orElse(new Message(null, null));
 
                     if (newLast.getTime().isAfter(lastMessage.getTime())) {
                         lastMessage = newLast;
