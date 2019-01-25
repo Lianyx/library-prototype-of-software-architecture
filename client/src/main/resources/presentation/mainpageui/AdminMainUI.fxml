@@ -95,11 +95,11 @@
                         <Font size="15.0" />
                      </font>
                   </TextArea>
-                  <Button layoutX="25.0" layoutY="273.0" mnemonicParsing="false" prefHeight="60.0" styleClass="common-button" text="刷新消息" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="55.0">
+                  <Button layoutX="25.0" layoutY="273.0" mnemonicParsing="false" onAction="#handleMessage" prefHeight="60.0" styleClass="common-button" text="刷新消息" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="55.0">
                      <font>
                         <Font size="16.0" />
                      </font></Button>
-                  <Button layoutX="75.0" layoutY="273.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="clearButton" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" />
+                  <Button layoutX="75.0" layoutY="273.0" mnemonicParsing="false" onAction="#clearMessage" prefHeight="50.0" prefWidth="50.0" styleClass="clearButton" AnchorPane.bottomAnchor="5.0" AnchorPane.rightAnchor="0.0" />
                </AnchorPane>
             </Tab>
          </JFXTabPane>

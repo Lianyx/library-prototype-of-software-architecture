@@ -31,8 +31,6 @@ public class UserMainUIController extends BaseMainUIController {
     }
 
 
-    // 加载文件和界面的方法******************************************
-
     public void instanceInit(RootUIController root){
         init(root);
     }
@@ -47,7 +45,6 @@ public class UserMainUIController extends BaseMainUIController {
             UserMainUIController controller=loader.getController();
             root.showLogoutButton(true);
             controller.setRoot(root);
-            //controller.setService(MessageBlFactory.getService());
         }catch(Exception e){
             e.printStackTrace();
         }

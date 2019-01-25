@@ -1,60 +1,62 @@
 package presentation.mainpageui;
 
+import doc.MessageDoc;
+import factory.ServiceFactory;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextArea;
+import object.po.Message;
+import observer.RmiService;
 import presentation.uitools.CenterUIController;
+import presentation.uitools.UITool;
 import service.MessageService;
+
+import java.rmi.RemoteException;
+import java.util.ArrayList;
 
 
 public abstract class BaseMainUIController extends CenterUIController {
-    protected int messageNumber = 0;
 
+    private MessageService messageService;
+    RmiService rmiService;
 
-    // 设置controller数据的方法*****************************************
+    @FXML
+    protected TextArea messageArea;
 
-//    public void setService(MessageBlService service){
-//        this.service=service;
-//        refreshMessage();
-//    }
-
-    private void refreshMessage(){
-//        try{
-//            ArrayList<MessageVO> messageList=service.getMessageList(root.getOperator());
-//            messageNumber=messageList.size();
-//            UITool.showMessage(messageArea,messageList);
-//        }catch(DataException e){
-//            UITool.showAlert(Alert.AlertType.ERROR,
-//                    "Error","获取系统信息失败","数据库错误");
-//        }catch(Exception e){
-//            UITool.showAlert(Alert.AlertType.ERROR,
-//                    "Error","获取系统信息失败","RMI连接错误");
-//        }
+    public void initialize(){
+        messageService = ServiceFactory.getService(MessageService.class);
+        rmiService = ServiceFactory.getService(RmiService.class);
     }
 
-    // 界面之中会用到的方法******************************************
+    protected void refreshMessage(){
+        try{
+            ArrayList<Message> messageList = messageService.getByUsername(root.getOperator().getUsername());
+            UITool.showMessage(messageArea, messageList);
+        } catch(RemoteException e){
+            UITool.showAlert(Alert.AlertType.ERROR, "Error", "获取系统信息失败", "服务器连接错误");
+        }
+    }
 
-//    @FXML
-//    private void handleMessage(){
-//        refreshMessage();
-//    }
-//
-//    @FXML
-//    private void clearMessage(){
-//        ButtonType buttonType=UITool.showAlert(Alert.AlertType.CONFIRMATION,
-//                "确认", "是否清空系统信息？","此操作无法撤回");
-//        if(buttonType.equals(ButtonType.OK)){
-//            try{
-//                service.deleteMessage(root.getOperator().getID(),messageNumber);
-//                UITool.showAlert(Alert.AlertType.INFORMATION,"Success","清空系统信息成功","重新刷新系统信息");
-//                refreshMessage();
-//            }catch(DataException e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error","清空系统信息失败","数据库错误");
-//            }catch(Exception e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error","清空系统信息失败","RMI连接错误");
-//            }
-//        }
-//    }
-//
+    @FXML
+    protected void handleMessage(){
+        refreshMessage();
+    }
+
+    @FXML
+    protected void clearMessage(){
+        ButtonType buttonType = UITool.showAlert(Alert.AlertType.CONFIRMATION,
+                "确认", "是否清空系统信息？", "此操作无法撤回");
+        if(buttonType.equals(ButtonType.OK)){
+            try{
+                messageService.clear(root.getOperator().getUsername());
+                UITool.showAlert(Alert.AlertType.INFORMATION,"Success", "清空系统信息成功", "重新刷新系统信息");
+                refreshMessage();
+            } catch(Exception e){
+                UITool.showAlert(Alert.AlertType.ERROR,
+                        "Error", "清空系统信息失败", "服务器连接错误");
+            }
+        }
+    }
+
 }

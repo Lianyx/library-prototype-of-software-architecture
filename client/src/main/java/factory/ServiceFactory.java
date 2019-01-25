@@ -26,7 +26,7 @@ public class ServiceFactory {
             return newService;
         } catch (RemoteException | NotBoundException | MalformedURLException e) {
             e.printStackTrace();
-            return (T) new Object();
+            return null;
         }
     }
 }
