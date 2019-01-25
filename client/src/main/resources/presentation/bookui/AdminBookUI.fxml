@@ -37,7 +37,6 @@
       <columnConstraints>
          <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="50.0" />
          <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="50.0" />
-         <ColumnConstraints hgrow="SOMETIMES" minWidth="40.0" prefWidth="50.0" />
       </columnConstraints>
       <rowConstraints>
          <RowConstraints minHeight="40.0" prefHeight="40.0" vgrow="SOMETIMES" />
@@ -51,15 +50,7 @@
          </JFXButton>
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="1">
-         <JFXButton AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
-            <styleClass>
-               <String fx:value="special-button" />
-               <String fx:value="delete-button" />
-            </styleClass>
-         </JFXButton>
-      </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2">
-         <JFXButton AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+         <JFXButton onAction="#handleEditBook" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
             <styleClass>
                <String fx:value="special-button" />
                <String fx:value="edit-button" />

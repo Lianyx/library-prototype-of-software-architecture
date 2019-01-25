@@ -6,6 +6,7 @@ import dao.RecordDao;
 import dao.UserDao;
 import object.exception.BorrowAccessException;
 import object.exception.ExceedMaximumException;
+import object.exception.UnavailableException;
 import object.po.Book;
 import object.po.Record;
 import object.po.Role;
@@ -39,10 +40,12 @@ public class RecordServiceImpl extends UnicastRemoteObject implements RecordServ
             User user = userDao.selectByUsername(username);
             Book book = bookDao.selectById(bookId);
 
+            if (!book.isAvailable()) {
+                throw new UnavailableException();
+            }
             if (!haveAccess(user, book)) {
                 throw new BorrowAccessException();
             }
-
             if (exceedMaximum(user)) {
                 throw new ExceedMaximumException();
             }

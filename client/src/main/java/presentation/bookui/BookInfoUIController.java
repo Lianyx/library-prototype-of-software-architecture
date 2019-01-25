@@ -74,7 +74,6 @@ public class BookInfoUIController {
         }
     }
 
-    // 界面之中会用到的方法******************************************
 
     @FXML
     private void handleConfirm(){
@@ -156,7 +155,6 @@ public class BookInfoUIController {
             FXMLLoader loader=new FXMLLoader();
             loader.setLocation(BookInfoUIController.class.getResource("BookInfoUI.fxml"));
 
-            // Create the dialog stage
             Stage dialogStage = new Stage();
             dialogStage.setResizable(false);
             dialogStage.setTitle("书籍信息界面");
@@ -170,7 +168,6 @@ public class BookInfoUIController {
             controller.setDialogStage(dialogStage);
             controller.setPaneType(type);
 
-            // Show the dialog and wait until the book closes it.
             dialogStage.showAndWait();
 
         }catch(Exception e){
