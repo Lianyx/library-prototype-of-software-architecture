@@ -19,6 +19,6 @@ public class RmiClient extends UnicastRemoteObject implements RemoteObserver {
 
         System.out.println("got message: " + messages);
     }
-    // 测试可以先开main，然后开Observermain，去掉test中@beforeClass，然后跑testMessage
+    // 测试可以先开main，然后开Observermain，去掉test中@beforeClass，然后跑testMessage（去掉最後测clear的）
     // 于是client会收到一次提示
 }

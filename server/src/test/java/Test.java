@@ -210,9 +210,9 @@ public class Test {
             messages = messageService.getByUsername(adminUser.getUsername());
             assertEquals(2, messages.size());
 
-//            messageService.clear(adminUser.getUsername());
-//            messages = messageService.getByUsername(adminUser.getUsername());
-//            assertEquals(0, messages.size());
+            messageService.clear(adminUser.getUsername());
+            messages = messageService.getByUsername(adminUser.getUsername());
+            assertEquals(0, messages.size());
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

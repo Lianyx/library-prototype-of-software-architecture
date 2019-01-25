@@ -4,6 +4,7 @@ import dao.BookDao;
 import dao.CategoryDao;
 import dao.RoleDao;
 import dao.UserDao;
+import object.enun.BookType;
 import object.po.Book;
 import object.po.Category;
 import object.po.Role;
@@ -39,8 +40,8 @@ public class DataSupplier {
             adminUser = new User("admin", "123", admin);
 
     public static Book
-            network = new Book("NW", "计算机网络", "谢某", null, null, cs),
-            calculus = new Book("CCL", "微积分计算", "肖", null, null, math),
+            network = new Book("NW", "计算机网络", "谢某", "EBook.html", BookType.HTML, cs),
+            calculus = new Book("CCL", "微积分计算", "肖", "EBook.pdf", BookType.PDF, math),
             republic = new Book("RP", "理想国", "Plato", null, null, classics),
             medieval = new Book("MH", "an introduction to medieval history", "XX", null, null, history),
             OS = new Book("OS", "操作系统", "葛", null, null, cs);
