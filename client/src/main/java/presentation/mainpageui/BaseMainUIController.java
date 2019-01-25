@@ -3,13 +3,12 @@ package presentation.mainpageui;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import presentation.uitools.CenterUIController;
+import service.MessageService;
 
 
 public abstract class BaseMainUIController extends CenterUIController {
-//    private MessageBlService service;
     protected int messageNumber = 0;
-    @FXML
-    protected TextArea messageArea;
+
 
     // 设置controller数据的方法*****************************************
 

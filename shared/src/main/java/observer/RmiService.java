@@ -1,7 +1,5 @@
 package observer;
 
-import observer.RemoteObserver;
-
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 

@@ -1,13 +1,36 @@
 package presentation.mainpageui;
 
+import doc.MessageDoc;
+import factory.ServiceFactory;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.control.TextArea;
+import lombok.Setter;
+import object.po.Message;
+import observer.RmiClient;
+import observer.RmiService;
 import presentation.bookui.AdminBookUIController;
 import presentation.recordui.RecordManagementUIController;
 import presentation.userui.UserManagementUIController;
+import service.MessageService;
+
+import java.rmi.RemoteException;
 
 
 public class AdminMainUIController extends BaseMainUIController {
+
+    @FXML
+    private TextArea messageArea;
+    private MessageService messageService;
+    private RmiService rmiService;
+
+    public void initialize() throws RemoteException {
+        System.out.println("初始化了");
+        messageService = ServiceFactory.getService(MessageService.class);
+        rmiService = ServiceFactory.getService(RmiService.class);
+        MessageDoc messageDoc = new MessageDoc(messageArea);
+        rmiService.addObserver(messageDoc);
+    }
 
     @FXML
     private void gotoBookManagement(){
@@ -44,7 +67,7 @@ public class AdminMainUIController extends BaseMainUIController {
             AdminMainUIController controller=loader.getController();
             root.showLogoutButton(true);
             controller.setRoot(root);
-            //controller.setService(MessageBlFactory.getService());
+
         }catch(Exception e){
             e.printStackTrace();
         }
