@@ -19,17 +19,14 @@ import java.rmi.RemoteException;
 
 public class AdminMainUIController extends BaseMainUIController {
 
-    @FXML
-    private TextArea messageArea;
-    private MessageService messageService;
-    private RmiService rmiService;
-
-    public void initialize() throws RemoteException {
-        System.out.println("初始化了");
-        messageService = ServiceFactory.getService(MessageService.class);
-        rmiService = ServiceFactory.getService(RmiService.class);
-        MessageDoc messageDoc = new MessageDoc(messageArea);
-        rmiService.addObserver(messageDoc);
+    public void initialize() {
+        super.initialize();
+        try {
+            MessageDoc messageDoc = new MessageDoc(messageArea);
+            rmiService.addObserver(messageDoc);
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -67,7 +64,7 @@ public class AdminMainUIController extends BaseMainUIController {
             AdminMainUIController controller=loader.getController();
             root.showLogoutButton(true);
             controller.setRoot(root);
-
+            controller.refreshMessage();
         }catch(Exception e){
             e.printStackTrace();
         }

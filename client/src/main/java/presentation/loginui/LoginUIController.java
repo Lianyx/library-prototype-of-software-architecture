@@ -36,6 +36,9 @@ public class LoginUIController {
         String username = userIdField.getText();
         String password = passwordField.getText();
         try {
+            if (loginService == null) {
+                loginService = ServiceFactory.getService(LoginService.class);
+            }
             User user = loginService.login(username, password);
 
             stage.close();
@@ -72,8 +75,8 @@ public class LoginUIController {
             stage.show();
 
             LoginUIController controller = loader.getController();
-            controller.setStage(stage);
             controller.setLoginService(ServiceFactory.getService(LoginService.class));
+            controller.setStage(stage);
         }catch(IOException e){
             e.printStackTrace();
         }

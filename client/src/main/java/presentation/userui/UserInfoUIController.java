@@ -37,8 +37,6 @@ public class UserInfoUIController {
     private TextField dayLimit;
     @FXML
     private TextField categories;
-    @FXML
-    private TextField permission;
 
     @FXML
     private ChoiceBox<String> typeChoiceBox;
@@ -67,7 +65,6 @@ public class UserInfoUIController {
         username.setText(user.getUsername());
         password.setText(user.getPassword());
         debt.setText(String.valueOf(user.getDebt()));
-        permission.setText(String.valueOf(user.getPermissions()));
         setRole(user.getRole());
     }
 
