@@ -59,7 +59,7 @@ public abstract class BaseBookUIController extends CenterUIController {
             showBookList(bookList);
         } catch (RemoteException e){
             UITool.showAlert(Alert.AlertType.ERROR,
-                    "Error", "查找书籍失败", "服务器链接错误");
+                    "Error", "查找书籍失败", "服务器连接错误");
         } catch(Exception e){
             UITool.showAlert(Alert.AlertType.ERROR,
                     "Error","查找书籍失败","数据库错误");

@@ -51,7 +51,7 @@ public class LoginUIController {
             }
         } catch (InvalidLoginException e) {
             UITool.showAlert(Alert.AlertType.ERROR, "Error", "登陆失败", "用户名或密码错误");
-        }catch(RemoteException e){
+        } catch(RemoteException e){
             UITool.showAlert(Alert.AlertType.ERROR, "Error", "登陆失败", "服务器连接错误");
         }
     }
