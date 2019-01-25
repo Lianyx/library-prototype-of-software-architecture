@@ -33,10 +33,10 @@ import static dao.util.DaoFactory.getService;
 
 public class Test {
 
-    @BeforeClass
-    public static void before() {
-        Main.main(new String[]{});
-    }
+//    @BeforeClass
+//    public static void before() {
+//        Main.main(new String[]{});
+//    }
 
     @Before
     public void initialData() {
@@ -213,9 +213,9 @@ public class Test {
             messages = messageService.getByUsername(adminUser.getUsername());
             assertEquals(2, messages.size());
 
-            messageService.clear(adminUser.getUsername());
-            messages = messageService.getByUsername(adminUser.getUsername());
-            assertEquals(0, messages.size());
+//            messageService.clear(adminUser.getUsername());
+//            messages = messageService.getByUsername(adminUser.getUsername());
+//            assertEquals(0, messages.size());
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
