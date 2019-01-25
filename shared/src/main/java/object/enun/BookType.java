@@ -1,5 +1,7 @@
 package object.enun;
 
-public enum BookType {
-    PDF, HTML
+import java.io.Serializable;
+
+public enum BookType implements Serializable {
+    PDF, HTML, NULL
 }

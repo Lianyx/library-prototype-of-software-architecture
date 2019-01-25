@@ -10,7 +10,6 @@ import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import lombok.Data;
 import lombok.Setter;
 import object.exception.AlreadyExistException;
 import object.po.Role;
@@ -18,7 +17,6 @@ import object.po.User;
 import presentation.uitools.UITool;
 import service.UserService;
 import utils.UIType;
-import utils.UserType;
 
 @Setter
 public class UserInfoUIController {
@@ -30,7 +28,7 @@ public class UserInfoUIController {
     @FXML
     private TextField type;
     @FXML
-    private TextField password; // 密码
+    private TextField password;
     @FXML
     private TextField debt;
     @FXML
@@ -83,6 +81,7 @@ public class UserInfoUIController {
     private void setPaneType(UIType type) {
         if (type.equals(UIType.ADD)) {
             confirm.setText("添加");
+            username.setEditable(true);
         }
         else if (type.equals(UIType.USER_EDIT)) {
             confirm.setText("编辑");
@@ -97,7 +96,7 @@ public class UserInfoUIController {
 
     @FXML
     private void handleConfirm(){
-        if(isInputValid()){
+        if (isInputValid()){
             String text = confirm.getText();
 
             try{
@@ -109,14 +108,13 @@ public class UserInfoUIController {
                 }
                 UITool.showAlert(Alert.AlertType.INFORMATION,
                         "Success", text + "用户成功", "用户名: " + username.getText());
-
                 dialogStage.close();
-            } catch(AlreadyExistException e){
+            } catch (AlreadyExistException e){
                 UITool.showAlert(Alert.AlertType.ERROR,
-                        "Error", text + "用户失败","用户已存在");
+                        "Error", text + "用户失败", "用户已存在");
             } catch(Exception e){
                 UITool.showAlert(Alert.AlertType.ERROR,
-                        "Error", text + "用户失败","服务器连接错误");
+                        "Error", text + "用户失败", "服务器连接错误");
             }
         }
     }
@@ -133,16 +131,16 @@ public class UserInfoUIController {
     private boolean isInputValid(){
         String errorMessage = "";
 
-        if (username.getText().length() == 0) {
+        if (username.getText() == null || username.getText().length() == 0) {
             errorMessage += ("未输入用户名。" + System.lineSeparator());
         }
-        if (type.getText().length() == 0) {
+        if (type.getText() == null || type.getText().length() == 0) {
             errorMessage += ("未选择用户类型。" + System.lineSeparator());
         }
-        if (password.getText().length() == 0) {
+        if (password.getText() == null || password.getText().length() == 0) {
             errorMessage += ("未输入用户密码。" + System.lineSeparator());
         }
-        if (debt.getText().length() == 0) {
+        if (debt.getText() == null || debt.getText().length() == 0) {
             errorMessage += ("未输入用户欠款。" + System.lineSeparator());
         }
         else {
@@ -151,7 +149,7 @@ public class UserInfoUIController {
                 if (d < 0)
                     throw new NumberFormatException();
             } catch (NumberFormatException e) {
-                errorMessage += ("用户欠款必须是非负数。" + System.lineSeparator());
+                errorMessage += ("用户罚金必须是非负数。" + System.lineSeparator());
             }
         }
 

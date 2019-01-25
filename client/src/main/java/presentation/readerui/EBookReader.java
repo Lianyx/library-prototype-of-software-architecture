@@ -16,7 +16,7 @@ public class EBookReader {
     }
 
     public void display(Stage stage) {
-        UITool.showAlert(Alert.AlertType.NONE,
+        UITool.showAlert(Alert.AlertType.ERROR,
                 "加载失败", "加载此书的电子书失败", "此书没有对应的电子书");
     }
 }

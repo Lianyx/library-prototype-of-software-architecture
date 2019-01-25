@@ -21,6 +21,7 @@ public class AdminBookUIController extends BaseBookUIController {
     @FXML
     private void handleAddBook(){
         BookInfoUIController.init(bookService, new Book(), UIType.ADD, root.getStage());
+        refresh("");
     }
 
     @FXML
@@ -28,6 +29,7 @@ public class AdminBookUIController extends BaseBookUIController {
         if (isBookSelected()) {
             Book book = bookTableView.getSelectionModel().getSelectedItem();
             BookInfoUIController.init(bookService, book, UIType.ADMIN_EDIT, root.getStage());
+            refresh("");
         }
     }
 

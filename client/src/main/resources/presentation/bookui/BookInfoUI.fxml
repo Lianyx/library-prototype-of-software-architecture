@@ -86,7 +86,7 @@
                                 <String fx:value="myLabel" />
                             </styleClass>
                         </Label>
-                        <TextField fx:id="bookName" editable="false" prefHeight="30.0" prefWidth="170.0">
+                        <TextField fx:id="bookName" prefHeight="30.0" prefWidth="170.0">
                             <font>
                                 <Font size="15.0" />
                             </font>

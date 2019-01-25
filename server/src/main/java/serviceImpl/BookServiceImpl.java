@@ -2,6 +2,7 @@ package serviceImpl;
 
 import annotation.RMIRemote;
 import dao.BookDao;
+import object.enun.BookType;
 import object.exception.AlreadyExistException;
 import object.po.Book;
 import object.po.Category;
@@ -11,6 +12,8 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static dao.util.DaoFactory.getService;
 
@@ -61,5 +64,10 @@ public class BookServiceImpl extends UnicastRemoteObject implements BookService 
             e.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<BookType> getAllEBookTypes() throws RemoteException {
+        return Arrays.asList(BookType.NULL, BookType.PDF, BookType.HTML);
     }
 }

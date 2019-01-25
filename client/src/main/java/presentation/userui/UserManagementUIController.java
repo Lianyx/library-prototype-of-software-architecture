@@ -1,5 +1,6 @@
 package presentation.userui;
 
+import factory.ServiceFactory;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,63 +10,56 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import lombok.Setter;
 import object.po.User;
 import presentation.mainpageui.AdminMainUIController;
 import presentation.mainpageui.RootUIController;
 import presentation.uitools.CenterUIController;
 import presentation.uitools.UITool;
+import service.UserService;
 import utils.UIType;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 
+@Setter
 public class UserManagementUIController extends CenterUIController {
-    //private UserBlService userBlService;
+    private UserService userService;
 
     private ObservableList<User> userObservableList= FXCollections.observableArrayList();
     @FXML
     private TableView<User> userTableView;
     @FXML
-    private TableColumn<User,String> userIDColumn;
+    private TableColumn<User,String> usernameColumn;
     @FXML
-    private TableColumn<User,String> userNameColumn;
+    private TableColumn<User,String> userRoleColumn;
     @FXML
-    private TableColumn<User,String> userTypeColumn;
+    private TableColumn<User, String> userDebtColumn;
 
     @FXML
     private TextField searchInfo;
 
-    // 加载文件后调用的方法******************************************
 
-    /**
-     * 设置显示的客户信息以及显示方法
-     * */
     public void initialize(){
-        userIDColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUsername()));
-        userNameColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUsername()));
-        userTypeColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getPassword()));
+        usernameColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getUsername()));
+        userRoleColumn.setCellValueFactory(cellData->new SimpleStringProperty(cellData.getValue().getRole().getType()));
+        userDebtColumn.setCellValueFactory(cellData->new SimpleStringProperty(String.valueOf(cellData.getValue().getDebt())));
     }
 
-    // 设置controller数据的方法*****************************************
-
-//    public void setUserBlService(UserBlService userBlService) {
-//        this.userBlService = userBlService;
-//    }
-
-    /**
-     * 刷新界面，取得所有用户的列表，并显示在tableview中
-     * */
-//    private void refresh(UserQueryVO query){
-//        try {
-//            ArrayList<User> userList = userBlService.getUserList(query);
-//            showUserList(userList);
-//        }catch(DataException e){
-//            UITool.showAlert(Alert.AlertType.ERROR,
-//                    "Error","查找用户失败", "数据库错误");
-//        }catch(Exception e){
-//            UITool.showAlert(Alert.AlertType.ERROR,
-//                    "Error","查找用户失败","RMI连接错误");
-//        }
-//    }
+    private void refresh(String keyword){
+        try {
+            ArrayList<User> userList;
+            if (keyword == null || keyword.equals("")) {
+                userList = userService.getAllUsers();
+            } else {
+                userList = userService.searchUser(keyword);
+            }
+            showUserList(userList);
+        } catch (RemoteException e){
+            UITool.showAlert(Alert.AlertType.ERROR,
+                    "Error", "查找用户失败", "服务器连接错误");
+        }
+    }
 
     /**
      * 取得用户列表并修改ObservableList的信息
@@ -80,69 +74,31 @@ public class UserManagementUIController extends CenterUIController {
 
     @FXML
     private void handleSearch(){
-//        String text=searchInfo.getText();
-//        if(text.equals("")){
-//            refresh(null);
-//        }
-//        else{
-//            UserQueryVO query=new UserQueryVO(text,text);
-//            refresh(query);
-//        }
+        refresh(searchInfo.getText());
     }
 
     @FXML
     private void handleAddUser(){
-        UserInfoUIController.init(null, new User(), UIType.ADD, root.getStage());
-//        refresh(null);
-    }
-
-    @FXML
-    private void handleDeleteUser(){
-//        if(isUserSelected()){
-//            try {
-//                String ID = userTableView.getSelectionModel().getSelectedItem().getID();
-//                String name = userTableView.getSelectionModel().getSelectedItem().getName();
-//                userBlService.deleteUser(ID);
-//
-//                UITool.showAlert(Alert.AlertType.INFORMATION,
-//                        "Success", "删除用户成功",
-//                        "用户ID："+ID+System.lineSeparator()+"名字："+name);
-//            }catch(DataException e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error","删除用户失败","数据库错误");
-//            }catch(NotExistException e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error","删除用户失败","用户不存在");
-//            }catch(Exception e){
-//                UITool.showAlert(Alert.AlertType.ERROR,
-//                        "Error","删除用户失败","RMI连接错误");
-//            }
-//            refresh(null);
-//        }
+        UserInfoUIController.init(userService, new User(), UIType.ADD, root.getStage());
+        refresh("");
     }
 
     @FXML
     private void handleEditUser(){
-//        if(isUserSelected()){
-//            UserInfoUIController.init(userBlService,userTableView.getSelectionModel().getSelectedItem(),2,root.getStage());
-//        }
-//        refresh(null);
-    }
-
-    @FXML
-    private void handleCheckUser() {
-//        if(isUserSelected()){
-//            UserInfoUIController.init(userBlService,userTableView.getSelectionModel().getSelectedItem(),3,root.getStage());
-//        }
+        if(isUserSelected()){
+            User user = userTableView.getSelectionModel().getSelectedItem();
+            UserInfoUIController.init(userService, user, UIType.ADMIN_EDIT, root.getStage());
+        }
+        refresh("");
     }
 
     private boolean isUserSelected(){
         int selectedIndex = userTableView.getSelectionModel().getSelectedIndex();
-        if (selectedIndex>=0) {
+        if (selectedIndex >= 0) {
             return true;
         } else {
             UITool.showAlert(Alert.AlertType.ERROR,
-                    "No Selection","未选中用户","请在表中选择用户");
+                    "No Selection", "未选中用户", "请在表中选择用户");
             return false;
         }
     }
@@ -163,8 +119,8 @@ public class UserManagementUIController extends CenterUIController {
 
             UserManagementUIController controller=loader.getController();
             controller.setRoot(root);
-            //controller.setUserBlService(UserBlFactory.getService());
-            //controller.refresh(null);
+            controller.setUserService(ServiceFactory.getService(UserService.class));
+            controller.refresh("");
             root.setReturnPaneController(new AdminMainUIController());
         }catch(Exception e){
             e.printStackTrace();

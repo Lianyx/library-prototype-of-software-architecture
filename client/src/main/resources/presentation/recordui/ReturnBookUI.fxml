@@ -29,11 +29,11 @@
       </columnResizePolicy>
    </TableView>
    <AnchorPane layoutX="143.0" layoutY="-61.0" prefHeight="70.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
-      <TextField fx:id="searchInfo" layoutX="14.0" layoutY="20.0" prefHeight="35.0" prefWidth="250.0" promptText="输入书名" styleClass="textField-resize" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="25.0">
+      <TextField fx:id="searchInfo" editable="false" layoutX="14.0" layoutY="20.0" prefHeight="35.0" prefWidth="250.0" styleClass="textField-resize" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="25.0">
          <font>
             <Font size="18.0" />
          </font>
       </TextField>
-      <JFXButton ellipsisString="" graphicTextGap="0.0" layoutX="358.0" layoutY="20.0" onAction="#handleSearch" prefHeight="40.0" prefWidth="40.0" styleClass="special-button, search-button" AnchorPane.leftAnchor="358.0" AnchorPane.topAnchor="20.0" />
+      <JFXButton disable="true" ellipsisString="" graphicTextGap="0.0" layoutX="358.0" layoutY="20.0" onAction="#handleSearch" prefHeight="40.0" prefWidth="40.0" styleClass="special-button, search-button" AnchorPane.leftAnchor="358.0" AnchorPane.topAnchor="20.0" />
    </AnchorPane>
 </AnchorPane>

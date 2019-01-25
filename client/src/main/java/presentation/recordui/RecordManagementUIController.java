@@ -1,6 +1,6 @@
 package presentation.recordui;
 
-import com.jfoenix.controls.JFXButton;
+import factory.ServiceFactory;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,46 +12,27 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import presentation.mainpageui.AdminMainUIController;
 import presentation.mainpageui.RootUIController;
-import presentation.mainpageui.UserMainUIController;
 import presentation.uitools.UITool;
+import service.RecordService;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.rmi.RemoteException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class RecordManagementUIController extends BaseRecordUIController {
 
-    /**
-     * 刷新界面，取得所有用户的列表，并显示在tableview中
-     * */
-//    private void refresh(UserQueryVO query){
-//        try {
-//            ArrayList<User> userList = userBlService.getUserList(query);
-//            showUserList(userList);
-//        }catch(DataException e){
-//            UITool.showAlert(Alert.AlertType.ERROR,
-//                    "Error","查找用户失败", "数据库错误");
-//        }catch(Exception e){
-//            UITool.showAlert(Alert.AlertType.ERROR,
-//                    "Error","查找用户失败","RMI连接错误");
-//        }
-//    }
-
-
-
-    // 界面之中会用到的方法******************************************
-
-    @FXML
-    private void handleSearch(){
-//        String text=searchInfo.getText();
-//        if(text.equals("")){
-//            refresh(null);
-//        }
-//        else{
-//            UserQueryVO query=new UserQueryVO(text,text);
-//            refresh(query);
-//        }
+    void refresh() {
+        try {
+            String keyword = searchInfo.getText() == null ? "" : searchInfo.getText();
+            ArrayList<Record> recordList = recordService.searchRecords(keyword);
+            showRecordList(recordList);
+        } catch (RemoteException e) {
+            UITool.showAlert(Alert.AlertType.ERROR,
+                    "Error", "查找借阅记录失败", "RMI连接错误");
+        }
     }
 
     @FXML
@@ -95,7 +76,7 @@ public class RecordManagementUIController extends BaseRecordUIController {
                         "文件路径："+file.getAbsolutePath());
             }
 
-        } catch ( Exception ex ) {
+        } catch (Exception ex) {
             System.out.println(ex);
         }
     }
@@ -104,9 +85,6 @@ public class RecordManagementUIController extends BaseRecordUIController {
         init(root);
     }
 
-    /**
-     * 静态初始化方法，加载相应的FXML文件，并添加一些信息
-     * */
     public static void init(RootUIController root){
         try{
             // 加载登陆界面
@@ -116,8 +94,8 @@ public class RecordManagementUIController extends BaseRecordUIController {
 
             RecordManagementUIController controller = loader.getController();
             controller.setRoot(root);
-            //controller.setUserBlService(UserBlFactory.getService());
-            //controller.refresh(null);
+            controller.setRecordService(ServiceFactory.getService(RecordService.class));
+            controller.refresh();
             root.setReturnPaneController(new AdminMainUIController());
         }catch(Exception e){
             e.printStackTrace();

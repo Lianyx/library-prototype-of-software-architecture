@@ -11,6 +11,8 @@ public class Book implements Serializable {
     private Category category;
 
     public Book() {
+        this.ebookPath = "";
+        this.ebookType = BookType.NULL;
     }
 
     public Book(String id, String name, String author, String ebookPath, BookType ebookType, Category category) {
