@@ -13,7 +13,7 @@ public class User implements Serializable {
     private Set<Permission> _permissions = new HashSet<>();
 
     public User() {
-        role = Role.getRole("");
+        role = new Role();
     }
 
     public User(String username, String password, Role role) {
