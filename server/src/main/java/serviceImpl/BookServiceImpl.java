@@ -4,6 +4,7 @@ import annotation.RMIRemote;
 import dao.BookDao;
 import object.exception.AlreadyExistException;
 import object.po.Book;
+import object.po.Category;
 import service.BookService;
 
 import java.rmi.RemoteException;
@@ -46,6 +47,16 @@ public class BookServiceImpl extends UnicastRemoteObject implements BookService 
     public ArrayList<Book> searchBook(String keyword) throws RemoteException {
         try {
             return bookDao.search(keyword);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public ArrayList<Category> getAllCategories() throws RemoteException {
+        try {
+            return bookDao.selectAllCategories();
         } catch (SQLException e) {
             e.printStackTrace();
             return null;

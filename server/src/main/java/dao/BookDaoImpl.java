@@ -1,6 +1,7 @@
 package dao;
 
 import object.po.Book;
+import object.po.Category;
 import object.po.Record;
 
 import java.sql.PreparedStatement;
@@ -16,7 +17,8 @@ public class BookDaoImpl implements BookDao {
             insertQuery,
             selectByIdQuery,
             updateQuery,
-            searchQuery;
+            searchQuery,
+            selectAllCategories;
 
     public BookDaoImpl() throws SQLException {
         this.insertQuery = getStatement(
@@ -31,6 +33,8 @@ public class BookDaoImpl implements BookDao {
                 "where id = ?;");
         this.searchQuery = getStatement("" +
                 "select * from Book where name like ? or author like ?;");
+        this.selectAllCategories = getStatement("" +
+                "select * from Category;");
     }
 
     @Override
@@ -58,6 +62,11 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void update(Book book) throws SQLException {
         voidQuery(updateQuery, book.getName(), book.getAuthor(), book.getEbookPath(), book.getEbookType(), book.getCategory(), book.getId());
+    }
+
+    @Override
+    public ArrayList<Category> selectAllCategories() throws SQLException {
+        return retrieveQuery(Category.class, selectAllCategories);
     }
 
     private void setAvailable(ArrayList<Book> books) throws SQLException {

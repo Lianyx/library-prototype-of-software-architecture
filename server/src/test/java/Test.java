@@ -128,6 +128,9 @@ public class Test {
             xiao = bookService.searchBook("微积分");
             assertEquals(calculus, xiao.get(0));
 
+            ArrayList<Category> allCategories = bookService.getAllCategories();
+            assertEquals(categories, new HashSet<>(allCategories));
+
             // add 沒测
         } catch (Exception e) {
             e.printStackTrace();
