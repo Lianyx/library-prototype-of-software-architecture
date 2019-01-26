@@ -1,4 +1,3 @@
-import com.healthmarketscience.rmiio.SimpleRemoteInputStream;
 import dao.RecordDao;
 import dao.UserDao;
 import launcher.Main;
@@ -8,14 +7,10 @@ import object.exception.BorrowAccessException;
 import object.exception.ExceedMaximumException;
 import object.exception.InvalidLoginException;
 import object.po.*;
-import observer.RmiClient;
-import observer.RmiService;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import service.*;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
@@ -217,9 +212,9 @@ public class Test {
             messages = messageService.getByUsername(adminUser.getUsername());
             assertEquals(2, messages.size());
 
-//            messageService.clear(adminUser.getUsername());
-//            messages = messageService.getByUsername(adminUser.getUsername());
-//            assertEquals(0, messages.size());
+            messageService.clear(adminUser.getUsername());
+            messages = messageService.getByUsername(adminUser.getUsername());
+            assertEquals(0, messages.size());
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);
@@ -234,7 +229,7 @@ public class Test {
             Record record = new Record();
             record.setUsername(UnGradLi.getUsername());
             record.setBookId(calculus.getId());
-            record.setBorrowTime(LocalDateTime.now().minusDays(12));
+            record.setBorrowTime(LocalDateTime.now().minusDays(13));
 
             recordDao.insert(record);
             record = recordDao.selectUnreturnedByUsernameAndBookId(UnGradLi.getUsername(), calculus.getId());
@@ -243,7 +238,7 @@ public class Test {
             recordDao.updatePenalty();
 
             record = recordDao.selectUnreturnedByUsernameAndBookId(UnGradLi.getUsername(), calculus.getId());
-            assertEquals(1.0, record.getPenalty(), 0.00001);
+            assertEquals(1.5, record.getPenalty(), 0.00001);
         } catch (Exception e) {
             e.printStackTrace();
             assertTrue(false);

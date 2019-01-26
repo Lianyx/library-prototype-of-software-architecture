@@ -83,8 +83,8 @@ public class RecordDaoImpl implements RecordDao {
                 "  and bookId = ? and returnTime is NULL;");
 
         this.updatePenaltyQuery = getStatement("" +
-                "UPDATE Record, User, Role\n" +
-                "SET penalty = (DATEDIFF(NOW(), Record.borrowTime) - Role.dayLimit) * 0.5\n" +
+                "UPDATE Record, User, Role, Penalty\n" +
+                "SET penalty = (DATEDIFF(NOW(), Record.borrowTime) - Role.dayLimit) * penalty.penaltyPerDay\n" +
                 "WHERE returnTime IS NULL\n" +
                 "      AND User.username = Record.username\n" +
                 "      AND User.role = Role.type\n" +

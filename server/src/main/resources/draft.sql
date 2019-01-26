@@ -84,6 +84,12 @@ CREATE TABLE RoleCategory (
   CHARACTER SET = utf8;
 ;
 
+CREATE TABLE Penalty (
+  penaltyPerDay DOUBLE
+)
+  CHARACTER SET = utf8;
+;
+
 
 INSERT INTO Book (id, name, author, ebookPath, ebookType, categoryId) VALUES (?, ?, ?, ?, ?, ?);
 INSERT INTO Category (id, name) VALUES (?, ?);
@@ -172,8 +178,8 @@ WHERE type IN (SELECT role
       OR toUsername = ?;
 
 
-UPDATE Record, User, Role
-SET penalty = (DATEDIFF(NOW(), Record.borrowTime) - Role.dayLimit) * 0.5
+UPDATE Record, User, Role, Penalty
+SET penalty = (DATEDIFF(NOW(), Record.borrowTime) - Role.dayLimit) * penalty.penaltyPerDay
 WHERE returnTime IS NULL
       AND User.username = Record.username
       AND User.role = Role.type

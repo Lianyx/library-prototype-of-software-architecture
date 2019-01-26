@@ -60,6 +60,8 @@ public class DataSupplier {
         executeVoidSql("delete from User");
         executeVoidSql("delete from UserPermission");
         executeVoidSql("delete from RoleCategory");
+        executeVoidSql("delete from Penalty");
+        executeVoidSql("insert into Penalty values(0.5)");
 
         CategoryDao categoryDao = getService(CategoryDao.class);
         for (Category category : categories) {
