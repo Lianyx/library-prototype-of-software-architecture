@@ -27,21 +27,6 @@ public class Role implements Serializable {
         this._categories = _categories;
     }
 
-    public static Role getRole(String type) {
-        switch (type) {
-            case "本科生":
-                return new UnderGraduateRole();
-            case "研究生":
-                return new GraduateRole();
-            case "老师":
-                return new TeacherRole();
-            case "管理员":
-                return new AdminRole();
-            default:
-                return new Role();
-        }
-    }
-
     public static String[] getTypeList() {
         return new String[]{"本科生", "研究生", "老师", "管理员"};
     }

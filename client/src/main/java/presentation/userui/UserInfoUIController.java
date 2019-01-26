@@ -1,5 +1,6 @@
 package presentation.userui;
 
+import factory.RoleFactory;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -51,7 +52,7 @@ public class UserInfoUIController {
         String[] typeList = Role.getTypeList();
         typeChoiceBox.setItems(FXCollections.observableArrayList(typeList));
         typeChoiceBox.getSelectionModel().selectedIndexProperty().addListener((ov,oldValue,newValue)->{
-            Role role = Role.getRole(typeList[newValue.intValue()]);
+            Role role = RoleFactory.getRole(typeList[newValue.intValue()]);
             user.setRole(role);
             setRole(role);
         });
